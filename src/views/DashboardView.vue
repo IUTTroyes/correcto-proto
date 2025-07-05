@@ -3,7 +3,7 @@
 
 <template>
   <main>
-    <div>
+    <div class="font-bold">
       Hello :D
     </div>
   </main>
