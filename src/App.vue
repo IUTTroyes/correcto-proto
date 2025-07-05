@@ -1,25 +1,39 @@
 <script setup>
-import { ref } from 'vue'
-import { RouterLink, RouterView } from 'vue-router'
+import { ref, computed, onMounted } from 'vue'
+import { RouterLink, RouterView, useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
 
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 
-const user = {
-  name: 'Tom Cook',
-  email: 'tom@example.com',
-  imageUrl:
-      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-}
+const userStore = useUserStore()
+const router = useRouter()
+
+// Check authentication on component mount
+onMounted(() => {
+  userStore.checkAuth()
+})
+
+// Computed property to get user data from the store
+const userData = computed(() => {
+  if (!userStore.user) return null
+
+  return {
+    name: `${userStore.user.firstName} ${userStore.user.lastName}`,
+    email: userStore.user.email,
+    imageUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+  }
+})
+
 const navigation = [
-  { name: 'Dashboard', href: '#', current: true },
+  { name: 'Dashboard', href: '/', current: true },
   { name: 'Sujets', href: '#', current: false },
   { name: 'Évaluations', href: '#', current: false },
 ]
 const userNavigation = [
   { name: 'Profil', href: '#' },
   { name: 'Paramètres', href: '#' },
-  { name: 'Déconnexion', href: '#' },
+  { name: 'Déconnexion', href: '#', action: logout },
 ]
 
 // État pour le menu utilisateur et le menu mobile
@@ -34,11 +48,18 @@ const toggleUserMenu = () => {
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value
 }
+
+// Fonction pour se déconnecter
+function logout() {
+  userStore.logout()
+  router.push('/auth/login')
+}
 </script>
 
 <template>
   <div class="min-h-full w-full">
-    <header class="bg-white shadow-sm">
+    <!-- Only show header when user is authenticated -->
+    <header v-if="userStore.isAuthenticated" class="bg-white shadow-sm">
       <nav>
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div class="flex h-16 items-center justify-between">
@@ -48,14 +69,15 @@ const toggleMobileMenu = () => {
               </div>
               <div class="hidden md:block">
                 <div class="ml-10 flex items-baseline space-x-4">
-                  <a v-for="navItem in navigation"
-                     :key="navItem.name"
-                     href="#"
-                     class="rounded-md px-3 py-2 text-sm font-medium hover:bg-red-400 hover:text-white"
-                     :class="navItem.current ? 'bg-gray-100 pointer-events-none' : ''"
-                     aria-current="page">
+                  <RouterLink
+                    v-for="navItem in navigation"
+                    :key="navItem.name"
+                    :to="navItem.href"
+                    class="rounded-md px-3 py-2 text-sm font-medium hover:bg-red-400 hover:text-white"
+                    :class="navItem.current ? 'bg-gray-100 pointer-events-none' : ''"
+                    aria-current="page">
                     {{ navItem.name }}
-                  </a>
+                  </RouterLink>
                 </div>
               </div>
             </div>
@@ -73,12 +95,19 @@ const toggleMobileMenu = () => {
                   <div>
                     <button @click="toggleUserMenu" type="button" class="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-hidden focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                       <span class="sr-only">Open user menu</span>
-                      <img class="size-8 rounded-full" :src="user.imageUrl" alt="" />
+                      <img class="size-8 rounded-full" :src="userData.imageUrl" alt="" />
                     </button>
                   </div>
 
                   <div v-if="isUserMenuOpen" class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button">
-                    <a v-for="navUserItem in userNavigation" :key="navUserItem.name" href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-400 hover:text-white" role="menuitem">
+                    <a
+                      v-for="navUserItem in userNavigation"
+                      :key="navUserItem.name"
+                      href="#"
+                      @click.prevent="navUserItem.action ? navUserItem.action() : null"
+                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-400 hover:text-white"
+                      role="menuitem"
+                    >
                       {{ navUserItem.name }}
                     </a>
                   </div>
@@ -99,22 +128,33 @@ const toggleMobileMenu = () => {
         <!-- Mobile menu -->
         <div v-if="isMobileMenuOpen" class="md:hidden" id="mobile-menu">
           <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
-            <a v-for="navItem in navigation" :key="navItem.name" href="#" class="block rounded-md px-3 py-2 text-base font-medium hover:bg-red-400 hover:text-white">
+            <RouterLink
+              v-for="navItem in navigation"
+              :key="navItem.name"
+              :to="navItem.href"
+              class="block rounded-md px-3 py-2 text-base font-medium hover:bg-red-400 hover:text-white"
+            >
               {{ navItem.name }}
-            </a>
+            </RouterLink>
           </div>
           <div class="border-t border-gray-700 pt-4 pb-3">
             <div class="flex items-center px-5">
               <div class="shrink-0">
-                <img class="size-10 rounded-full" :src="user.imageUrl" alt="" />
+                <img class="size-10 rounded-full" :src="userData.imageUrl" alt="" />
               </div>
               <div class="ml-3">
-                <div class="text-base font-medium text-white">{{ user.name }}</div>
-                <div class="text-sm font-medium text-gray-400">{{ user.email }}</div>
+                <div class="text-base font-medium text-white">{{ userData.name }}</div>
+                <div class="text-sm font-medium text-gray-400">{{ userData.email }}</div>
               </div>
             </div>
             <div class="mt-3 space-y-1 px-2">
-              <a v-for="navUserItem in userNavigation" :key="navUserItem.name" href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-red-400 hover:text-white">
+              <a
+                v-for="navUserItem in userNavigation"
+                :key="navUserItem.name"
+                href="#"
+                @click.prevent="navUserItem.action ? navUserItem.action() : null"
+                class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-red-400 hover:text-white"
+              >
                 {{ navUserItem.name }}
               </a>
             </div>
@@ -122,6 +162,8 @@ const toggleMobileMenu = () => {
         </div>
       </nav>
     </header>
+
+    <!-- Main content -->
     <main>
       <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <RouterView />
