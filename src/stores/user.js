@@ -1,35 +1,34 @@
-import { ref, computed } from 'vue'
-import { defineStore } from 'pinia'
+import {computed, ref} from 'vue'
+import {defineStore} from 'pinia'
 
 export const useUserStore = defineStore('user', () => {
   const user = ref(null)
   const isAuthenticated = computed(() => !!user.value)
 
-  async function fetchUser() {
+  async function getUser() {
     try {
-      // Fetch the user data from the JSON file
+      // Get the user data from the JSON file
       const response = await fetch('/User.json')
       if (!response.ok) {
-        throw new Error('Failed to fetch user data')
+        console.error('Failed to fetch user data', response.statusText)
       }
-      const userData = await response.json()
-      return userData
+      return await response.json()
     } catch (error) {
       console.error('Error fetching user data:', error)
       return null
     }
   }
 
-  async function login(username, password) {
+  async function login(mail, password) {
     try {
       // For this prototype, we'll use a hardcoded password
       const hardcodedPassword = 'password'
 
-      // Fetch user data from JSON file
-      const userData = await fetchUser()
+      // Get user data from JSON file
+      const userData = await getUser()
 
-      // Check if username matches and password is correct
-      if (userData && userData.username === username && password === hardcodedPassword) {
+      // Check if mail matches and password is correct
+      if (userData && userData.mail === mail && password === hardcodedPassword) {
         // Set the user data in the store
         user.value = userData
 
@@ -65,7 +64,7 @@ export const useUserStore = defineStore('user', () => {
 
     if (isAuth && !user.value) {
       // If authenticated but no user data, fetch it
-      fetchUser().then(userData => {
+      getUser().then(userData => {
         if (userData) {
           user.value = userData
         } else {
@@ -81,7 +80,7 @@ export const useUserStore = defineStore('user', () => {
   return {
     user,
     isAuthenticated,
-    fetchUser,
+    getUser,
     login,
     logout,
     setUser,

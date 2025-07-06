@@ -6,13 +6,13 @@ import { useRouter } from 'vue-router'
 const userStore = useUserStore()
 const router = useRouter()
 
-const username = ref('')
+const mail = ref('')
 const password = ref('')
 const error = ref('')
 const loading = ref(false)
 
 async function handleLogin() {
-  if (!username.value || !password.value) {
+  if (!mail.value || !password.value) {
     error.value = 'Veuillez remplir tous les champs'
     return
   }
@@ -21,7 +21,7 @@ async function handleLogin() {
   error.value = ''
 
   try {
-    const success = await userStore.login(username.value, password.value)
+    const success = await userStore.login(mail.value, password.value)
     if (success) {
       router.push('/')
     } else {
@@ -42,12 +42,12 @@ async function handleLogin() {
 
     <form @submit.prevent="handleLogin" class="flex flex-col gap-4">
       <div class="flex flex-col gap-1">
-        <label for="username" class="font-medium">Nom d'utilisateur</label>
+        <label for="mail" class="font-medium">Adresse mail</label>
         <input
             type="text"
-            id="username"
-            v-model="username"
-            placeholder="Entrez votre nom d'utilisateur"
+            id="mail"
+            v-model="mail"
+            placeholder="Entrez votre adresse mail"
             required
             class="p-2 border border-gray-200 rounded text-base"
         />
@@ -86,7 +86,7 @@ async function handleLogin() {
       </div>
       <div class="text-sm">
         <div>
-          <span class="font-bold">Nom d'utilisateur :</span> user1
+          <span class="font-bold">Adresse mail :</span> enseignant@example.com
         </div>
         <div>
           <span class="font-bold">Mot de passe :</span> password
