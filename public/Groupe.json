@@ -1,44 +1,29 @@
 [
   {
     "id": 1,
-    "code": "BUT3-A",
-    "name": "BUT 3ème année - Groupe A",
-    "description": "Groupe d'étudiants en 3ème année de BUT Informatique",
-    "annee": "2023-2024",
-    "formation": "BUT Informatique",
-    "niveau": 3,
-    "effectif": 25,
-    "tuteur": 1,
-    "tuteur_nom": "John Doe",
-    "date_creation": "2023-07-15T09:00:00Z",
-    "date_modification": "2023-07-25T11:30:00Z"
+    "semestre": "S3 DWeb-Di FI",
+    "name": "A",
+    "type": "TP",
+    "departement": "MMI",
+    "niveau": 2,
+    "effectif": 25
   },
   {
     "id": 2,
-    "code": "BUT2-B",
-    "name": "BUT 2ème année - Groupe B",
-    "description": "Groupe d'étudiants en 2ème année de BUT Informatique",
-    "annee": "2023-2024",
-    "formation": "BUT Informatique",
-    "niveau": 2,
-    "effectif": 30,
-    "tuteur": 2,
-    "tuteur_nom": "Jane Smith",
-    "date_creation": "2023-07-20T10:15:00Z",
-    "date_modification": "2023-07-30T14:45:00Z"
+    "semestre": "S5 DWeb-Di FC",
+    "name": "EF",
+    "type": "TD",
+    "departement": "MMI",
+    "niveau": 3,
+    "effectif": 30
   },
   {
     "id": 3,
-    "code": "LP-CDAISI",
-    "name": "Licence Pro CDAISI",
-    "description": "Groupe d'étudiants en Licence Professionnelle Conception et Développement d'Applications Internet et Intranet pour les Systèmes d'Information",
-    "annee": "2023-2024",
-    "formation": "LP CDAISI",
-    "niveau": 1,
-    "effectif": 20,
-    "tuteur": 3,
-    "tuteur_nom": "Alex Martin",
-    "date_creation": "2023-07-25T11:30:00Z",
-    "date_modification": "2023-08-05T16:20:00Z"
+    "semestre": "S3 DWeb-Di FC",
+    "name": "AB",
+    "type": "TD",
+    "departement": "MMI",
+    "niveau": 2,
+    "effectif": 28
   }
 ]

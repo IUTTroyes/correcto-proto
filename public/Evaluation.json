@@ -24,8 +24,7 @@
     "date_fin": "2023-10-31T23:59:59Z",
     "date_creation": "2023-09-15T12:00:00Z",
     "date_modification": "2023-09-20T12:00:00Z",
-    "auteur": 1,
-    "auteur_nom": "John Doe"
+    "auteur": 1
   },
   {
     "id": 2,
@@ -52,8 +51,7 @@
     "date_fin": "2023-11-30T23:59:59Z",
     "date_creation": "2023-10-10T12:00:00Z",
     "date_modification": "2023-10-15T12:00:00Z",
-    "auteur": 2,
-    "auteur_nom": "Jane Smith"
+    "auteur": 2
   },
   {
     "id": 3,
@@ -72,7 +70,7 @@
       }
     },
     "matière": 3,
-    "groupe": 1,
+    "groupe": 3,
     "grille_eval": 3,
     "actif": true,
     "status": 0,
@@ -80,7 +78,6 @@
     "date_fin": "2023-12-15T23:59:59Z",
     "date_creation": "2023-11-20T12:00:00Z",
     "date_modification": "2023-11-25T12:00:00Z",
-    "auteur": 3,
-    "auteur_nom": "Alex Martin"
+    "auteur": 1
   }
 ]

@@ -1,20 +1,29 @@
 [
-    {
-      "id": 1,
-      "mail": "enseignant@example.com",
-      "prenom": "John",
-      "nom": "Doe",
-      "password": "password",
-      "role": "enseignant",
-      "token": "sample-jwt-token"
-    },
-    {
-      "id": 2,
-      "mail": "etudiant@example.com",
-      "prenom": "Alice",
-      "nom": "Martin",
-      "password": "password",
-      "role": "etudiant",
-      "token": "sample-jwt-token-etudiant"
-    }
-  ]
+  {
+    "id": 1,
+    "mail": "enseignant@example.com",
+    "prenom": "John",
+    "nom": "Doe",
+    "password": "password",
+    "role": "enseignant",
+    "token": "sample-jwt-token"
+  },
+  {
+    "id": 2,
+    "mail": "etudiant@example.com",
+    "prenom": "Alice",
+    "nom": "Martin",
+    "password": "password",
+    "role": "etudiant",
+    "token": "sample-jwt-token-etudiant"
+  },
+  {
+    "id": 3,
+    "mail": "enseignant2@example.com",
+    "prenom": "Bob",
+    "nom": "Dylan",
+    "password": "password",
+    "role": "enseignant",
+    "token": "sample-jwt-token"
+  }
+]
