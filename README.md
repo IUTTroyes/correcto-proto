@@ -27,4 +27,10 @@ npm run dev
 ```sh
 npm run build
 ```
-# correcto-proto
+
+
+## Questionnement
+
+- Vaut-il mieux créer une simple banque de critères ou des grilles d'évaluation ?
+  1. Quand on créé une éval on choisit les critères 1/1
+  2. Quand on créé une éval on choisit une grille d'évaluation qui contient N critères

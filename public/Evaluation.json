@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "name": "Développer une application web complète et fonctionnelle",
+    "description": "Ce projet consiste à créer une application web qui permet aux étudiant de suivre les échéances des rendus. L'application doit inclure des fonctionnalités telles que l'ajout, la modification et la suppression de tâches, ainsi que la possibilité de marquer les tâches comme terminées.",
+    "ressources" : {
+        "1": {
+            "id": 1,
+            "name": "Exemple de projet similaire",
+            "url": "https://github.com/IUTTroyes/correcto-proto"
+        },
+        "2": {
+            "id": 2,
+            "name": "Bibliothèques de composants UI",
+            "url": "https://headlessui.com"
+        }
+    },
+    "matière": 1,
+    "critere": {
+      "1": 2,
+      "2": 3,
+      "3": 4,
+      "4": 5
+    },
+    "actif": true,
+    "status": 0,
+    "date_debut": "2023-10-01T00:00:00Z",
+    "date_fin": "2023-10-31T23:59:59Z",
+    "date_creation": "2023-09-15T12:00:00Z",
+    "date_modification": "2023-09-20T12:00:00Z",
+    "auteur": 1,
+    "auteur_nom": "John Doe"
+  },
+  {
+    "id": 2,
+  }
+]
