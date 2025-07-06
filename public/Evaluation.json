@@ -47,8 +47,8 @@
     "grille_eval": 2,
     "actif": true,
     "status": 1,
-    "date_debut": "2025-11-01T00:00:00Z",
-    "date_fin": "2025-11-30T23:59:59Z",
+    "date_debut": "2025-06-01T00:00:00Z",
+    "date_fin": "2025-08-15T23:59:59Z",
     "date_creation": "2023-10-10T12:00:00Z",
     "date_modification": "2023-10-15T12:00:00Z",
     "auteur": 2
@@ -79,5 +79,32 @@
     "date_creation": "2023-11-20T12:00:00Z",
     "date_modification": "2023-11-25T12:00:00Z",
     "auteur": 1
+  },
+  {
+    "id": 4,
+    "name": "QCM API REST",
+    "description": "Évaluation des connaissances théoriques sur les API REST et les bonnes pratiques de développement.",
+    "ressources": {
+      "1": {
+        "id": 1,
+        "name": "Documentation Express.js",
+        "url": "https://expressjs.com/"
+      },
+      "2": {
+        "id": 2,
+        "name": "Guide sur l'authentification JWT",
+        "url": "https://jwt.io/introduction/"
+      }
+    },
+    "matiere": 2,
+    "groupe": 2,
+    "grille_eval": 2,
+    "actif": true,
+    "status": 1,
+    "date_debut": "2025-11-01T00:00:00Z",
+    "date_fin": "2025-11-30T23:59:59Z",
+    "date_creation": "2023-10-10T12:00:00Z",
+    "date_modification": "2023-10-15T12:00:00Z",
+    "auteur": 2
   }
 ]

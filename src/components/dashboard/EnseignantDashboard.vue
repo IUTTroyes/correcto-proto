@@ -19,11 +19,11 @@ onMounted(async () => {
 </script>
 
 <template>
-<div class="flex flex-col gap-4 bg-white rounded-lg shadow-md p-4">
+<div class="flex flex-col gap-4 bg-white rounded-lg border border-gray-200 p-4">
   <div class="font-bold text-xl">Évaluations en cours</div>
-  <div class="flex flex-col gap-1">
+  <div class="flex flex-col gap-3">
     <div v-for="evaluation in evaluations" class="p-1 w-full">
-      <div class="flex items-center justify-between">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between">
         <div class="flex items-center gap-2">
           <div class="bg-red-100 p-2 rounded-md">
             <BookOpenIcon class="inline-block size-6 text-red-400" aria-hidden="true" />
@@ -33,9 +33,8 @@ onMounted(async () => {
             <div class="text-sm opacity-60"><span>{{evaluation.matiereDetails?.name}}</span> | <span>{{evaluation.groupeDetails.semestre}} - {{evaluation.groupeDetails.type}} {{evaluation.groupeDetails.name}}</span></div>
           </div>
         </div>
-
-        <div>
-          <div class="text-sm opacity-60">
+        <div class="w-full flex justify-end md:w-fit">
+          <div class="text-sm opacity-60 text-red-600">
             Temps restant :
             <span v-if="evaluation.date_fin && evaluation.date_debut">
               {{
