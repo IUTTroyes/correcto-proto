@@ -1,5 +1,122 @@
 [
-    {
-      "id": 1
-    }
-  ]
+  {
+    "id": 1,
+    "name": "Qualité du code",
+    "description": "Évaluation de la lisibilité, de la structure et de la propreté du code",
+    "points": 5,
+    "bareme": [
+      {"niveau": "Insuffisant", "points": 0, "description": "Code illisible, non structuré"},
+      {"niveau": "Passable", "points": 2, "description": "Code lisible mais peu structuré"},
+      {"niveau": "Bien", "points": 3.5, "description": "Code bien structuré avec quelques imperfections"},
+      {"niveau": "Excellent", "points": 5, "description": "Code parfaitement structuré et documenté"}
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Fonctionnalités implémentées",
+    "description": "Évaluation des fonctionnalités demandées et correctement implémentées",
+    "points": 6,
+    "bareme": [
+      {"niveau": "Insuffisant", "points": 0, "description": "Fonctionnalités absentes ou non fonctionnelles"},
+      {"niveau": "Passable", "points": 3, "description": "Fonctionnalités de base implémentées"},
+      {"niveau": "Bien", "points": 4.5, "description": "La plupart des fonctionnalités implémentées correctement"},
+      {"niveau": "Excellent", "points": 6, "description": "Toutes les fonctionnalités parfaitement implémentées"}
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Interface utilisateur",
+    "description": "Évaluation de l'ergonomie et de l'esthétique de l'interface",
+    "points": 4,
+    "bareme": [
+      {"niveau": "Insuffisant", "points": 0, "description": "Interface non fonctionnelle ou très peu ergonomique"},
+      {"niveau": "Passable", "points": 2, "description": "Interface fonctionnelle mais peu intuitive"},
+      {"niveau": "Bien", "points": 3, "description": "Interface intuitive avec quelques défauts esthétiques"},
+      {"niveau": "Excellent", "points": 4, "description": "Interface parfaitement ergonomique et esthétique"}
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Documentation",
+    "description": "Évaluation de la qualité et de la complétude de la documentation",
+    "points": 5,
+    "bareme": [
+      {"niveau": "Insuffisant", "points": 0, "description": "Documentation absente ou très incomplète"},
+      {"niveau": "Passable", "points": 2.5, "description": "Documentation présente mais insuffisante"},
+      {"niveau": "Bien", "points": 4, "description": "Documentation complète avec quelques manques"},
+      {"niveau": "Excellent", "points": 5, "description": "Documentation exhaustive et bien structurée"}
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Architecture API",
+    "description": "Évaluation de la conception et de l'architecture de l'API",
+    "points": 5,
+    "bareme": [
+      {"niveau": "Insuffisant", "points": 0, "description": "Architecture inexistante ou très mal conçue"},
+      {"niveau": "Passable", "points": 2.5, "description": "Architecture basique mais fonctionnelle"},
+      {"niveau": "Bien", "points": 4, "description": "Bonne architecture avec quelques imperfections"},
+      {"niveau": "Excellent", "points": 5, "description": "Architecture parfaitement conçue et évolutive"}
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Sécurité",
+    "description": "Évaluation des mesures de sécurité implémentées",
+    "points": 6,
+    "bareme": [
+      {"niveau": "Insuffisant", "points": 0, "description": "Aucune mesure de sécurité"},
+      {"niveau": "Passable", "points": 3, "description": "Mesures de sécurité basiques"},
+      {"niveau": "Bien", "points": 4.5, "description": "Bonnes mesures de sécurité avec quelques vulnérabilités"},
+      {"niveau": "Excellent", "points": 6, "description": "Sécurité complète et robuste"}
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Performance",
+    "description": "Évaluation des performances et de l'optimisation de l'API",
+    "points": 4,
+    "bareme": [
+      {"niveau": "Insuffisant", "points": 0, "description": "Performances très faibles, API lente"},
+      {"niveau": "Passable", "points": 2, "description": "Performances acceptables mais non optimisées"},
+      {"niveau": "Bien", "points": 3, "description": "Bonnes performances avec quelques optimisations"},
+      {"niveau": "Excellent", "points": 4, "description": "Performances excellentes et parfaitement optimisées"}
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Couverture des tests",
+    "description": "Évaluation de la couverture et de la qualité des tests",
+    "points": 4,
+    "bareme": [
+      {"niveau": "Insuffisant", "points": 0, "description": "Aucun test ou couverture très faible"},
+      {"niveau": "Passable", "points": 2, "description": "Tests basiques avec couverture limitée"},
+      {"niveau": "Bien", "points": 3, "description": "Bonne couverture de tests avec quelques manques"},
+      {"niveau": "Excellent", "points": 4, "description": "Couverture de tests complète et de haute qualité"}
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Automatisation",
+    "description": "Évaluation de l'automatisation des tests et du déploiement",
+    "points": 3,
+    "bareme": [
+      {"niveau": "Insuffisant", "points": 0, "description": "Aucune automatisation"},
+      {"niveau": "Passable", "points": 1.5, "description": "Automatisation basique et limitée"},
+      {"niveau": "Bien", "points": 2.5, "description": "Bonne automatisation avec quelques processus manuels"},
+      {"niveau": "Excellent", "points": 3, "description": "Automatisation complète et efficace"}
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Rapport de tests",
+    "description": "Évaluation de la qualité et de la clarté des rapports de tests",
+    "points": 3,
+    "bareme": [
+      {"niveau": "Insuffisant", "points": 0, "description": "Aucun rapport ou rapports incompréhensibles"},
+      {"niveau": "Passable", "points": 1.5, "description": "Rapports basiques mais peu détaillés"},
+      {"niveau": "Bien", "points": 2.5, "description": "Bons rapports avec quelques informations manquantes"},
+      {"niveau": "Excellent", "points": 3, "description": "Rapports complets, clairs et détaillés"}
+    ]
+  }
+]

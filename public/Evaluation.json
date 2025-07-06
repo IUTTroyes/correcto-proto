@@ -16,12 +16,8 @@
         }
     },
     "matière": 1,
-    "critere": {
-      "1": 2,
-      "2": 3,
-      "3": 4,
-      "4": 5
-    },
+    "groupe": 1,
+    "grille_eval": 1,
     "actif": true,
     "status": 0,
     "date_debut": "2023-10-01T00:00:00Z",
@@ -33,5 +29,58 @@
   },
   {
     "id": 2,
+    "name": "Créer une API REST sécurisée",
+    "description": "Développer une API REST permettant la gestion des utilisateurs et des tâches, avec authentification et autorisations.",
+    "ressources": {
+      "1": {
+        "id": 1,
+        "name": "Documentation Express.js",
+        "url": "https://expressjs.com/"
+      },
+      "2": {
+        "id": 2,
+        "name": "Guide sur l'authentification JWT",
+        "url": "https://jwt.io/introduction/"
+      }
+    },
+    "matière": 2,
+    "groupe": 2,
+    "grille_eval": 2,
+    "actif": true,
+    "status": 1,
+    "date_debut": "2023-11-01T00:00:00Z",
+    "date_fin": "2023-11-30T23:59:59Z",
+    "date_creation": "2023-10-10T12:00:00Z",
+    "date_modification": "2023-10-15T12:00:00Z",
+    "auteur": 2,
+    "auteur_nom": "Jane Smith"
+  },
+  {
+    "id": 3,
+    "name": "Mettre en place des tests automatisés",
+    "description": "Écrire et intégrer des tests unitaires et d'intégration pour garantir la qualité du code.",
+    "ressources": {
+      "1": {
+        "id": 1,
+        "name": "Jest - Documentation",
+        "url": "https://jestjs.io/docs/getting-started"
+      },
+      "2": {
+        "id": 2,
+        "name": "Vue Test Utils",
+        "url": "https://vue-test-utils.vuejs.org/"
+      }
+    },
+    "matière": 3,
+    "groupe": 1,
+    "grille_eval": 3,
+    "actif": true,
+    "status": 0,
+    "date_debut": "2023-12-01T00:00:00Z",
+    "date_fin": "2023-12-15T23:59:59Z",
+    "date_creation": "2023-11-20T12:00:00Z",
+    "date_modification": "2023-11-25T12:00:00Z",
+    "auteur": 3,
+    "auteur_nom": "Alex Martin"
   }
 ]

@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "code": "DEV301",
+    "name": "Développement Web Avancé",
+    "description": "Cours avancé sur le développement d'applications web modernes",
+    "credits": 6,
+    "semestre": 3,
+    "responsable": 1,
+    "responsable_nom": "John Doe",
+    "date_creation": "2023-08-01T08:00:00Z",
+    "date_modification": "2023-08-15T10:30:00Z"
+  },
+  {
+    "id": 2,
+    "code": "API202",
+    "name": "Conception d'API",
+    "description": "Cours sur la conception et l'implémentation d'API REST",
+    "credits": 4,
+    "semestre": 2,
+    "responsable": 2,
+    "responsable_nom": "Jane Smith",
+    "date_creation": "2023-08-05T09:15:00Z",
+    "date_modification": "2023-08-20T14:45:00Z"
+  },
+  {
+    "id": 3,
+    "code": "TEST401",
+    "name": "Tests et Qualité Logicielle",
+    "description": "Cours sur les méthodologies de test et l'assurance qualité",
+    "credits": 3,
+    "semestre": 4,
+    "responsable": 3,
+    "responsable_nom": "Alex Martin",
+    "date_creation": "2023-08-10T11:30:00Z",
+    "date_modification": "2023-08-25T16:20:00Z"
+  }
+]
