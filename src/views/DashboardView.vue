@@ -15,7 +15,7 @@ onMounted(async () => {
 
 <template>
   <main class="flex flex-col gap-6">
-    <div>
+    <div class="p-6">
       <div class="font-bold text-2xl">
         Bienvenue {{ user?.prenom }} {{ user?.nom }} !
       </div>
