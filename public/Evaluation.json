@@ -15,7 +15,7 @@
             "url": "https://headlessui.com"
         }
     },
-    "matière": 1,
+    "matiere": 1,
     "groupe": 1,
     "grille_eval": 1,
     "actif": true,
@@ -42,7 +42,7 @@
         "url": "https://jwt.io/introduction/"
       }
     },
-    "matière": 2,
+    "matiere": 2,
     "groupe": 2,
     "grille_eval": 2,
     "actif": true,
@@ -69,7 +69,7 @@
         "url": "https://vue-test-utils.vuejs.org/"
       }
     },
-    "matière": 3,
+    "matiere": 3,
     "groupe": 3,
     "grille_eval": 3,
     "actif": true,
