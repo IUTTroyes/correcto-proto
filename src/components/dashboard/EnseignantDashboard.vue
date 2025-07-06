@@ -3,7 +3,9 @@
 </script>
 
 <template>
-
+<div>
+  Hello enseignant
+</div>
 </template>
 
 <style scoped>

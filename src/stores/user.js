@@ -5,35 +5,38 @@ export const useUserStore = defineStore('user', () => {
   const user = ref(null)
   const isAuthenticated = computed(() => !!user.value)
 
-  async function getUser() {
+  async function getUsers() {
     try {
-      // Get the user data from the JSON file
+      // Get the users data from the JSON file
       const response = await fetch('/User.json')
       if (!response.ok) {
-        console.error('Failed to fetch user data', response.statusText)
+        console.error('Failed to fetch users data', response.statusText)
       }
       return await response.json()
     } catch (error) {
-      console.error('Error fetching user data:', error)
+      console.error('Error fetching users data:', error)
       return null
     }
   }
 
   async function login(mail, password) {
     try {
-      // For this prototype, we'll use a hardcoded password
-      const hardcodedPassword = 'password'
+      // Get users data from JSON file
+      const users = await getUsers()
 
-      // Get user data from JSON file
-      const userData = await getUser()
+      // Find the user with matching email and password
+      const foundUser = users.find(userData =>
+        userData.mail === mail && userData.password === password
+      )
 
-      // Check if mail matches and password is correct
-      if (userData && userData.mail === mail && password === hardcodedPassword) {
+      if (foundUser) {
         // Set the user data in the store
-        user.value = userData
+        user.value = foundUser
 
         // Store authentication state in localStorage for persistence
         localStorage.setItem('isAuthenticated', 'true')
+        // Store user email for later identification
+        localStorage.setItem('userEmail', mail)
 
         return true
       }
@@ -48,6 +51,7 @@ export const useUserStore = defineStore('user', () => {
   function logout() {
     user.value = null
     localStorage.removeItem('isAuthenticated')
+    localStorage.removeItem('userEmail')
   }
 
   function setUser(userData) {
@@ -61,15 +65,25 @@ export const useUserStore = defineStore('user', () => {
   // Check if user was previously authenticated
   function checkAuth() {
     const isAuth = localStorage.getItem('isAuthenticated') === 'true'
+    const userEmail = localStorage.getItem('userEmail')
 
-    if (isAuth && !user.value) {
+    if (isAuth && !user.value && userEmail) {
       // If authenticated but no user data, fetch it
-      getUser().then(userData => {
-        if (userData) {
-          user.value = userData
+      getUsers().then(users => {
+        if (users) {
+          // Find the user with the stored email
+          const foundUser = users.find(userData => userData.mail === userEmail)
+          if (foundUser) {
+            user.value = foundUser
+          } else {
+            // If user can't be found, clear authentication
+            localStorage.removeItem('isAuthenticated')
+            localStorage.removeItem('userEmail')
+          }
         } else {
-          // If user data can't be fetched, clear authentication
+          // If users data can't be fetched, clear authentication
           localStorage.removeItem('isAuthenticated')
+          localStorage.removeItem('userEmail')
         }
       })
     }
@@ -80,7 +94,7 @@ export const useUserStore = defineStore('user', () => {
   return {
     user,
     isAuthenticated,
-    getUser,
+    getUsers,
     login,
     logout,
     setUser,

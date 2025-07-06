@@ -8,23 +8,24 @@ const userStore = useUserStore();
 const user = ref(null);
 
 onMounted(async () => {
-  user.value = await userStore.getUser();
+  user.value = await userStore.user;
+  console.log(user.value);
 });
 </script>
 
 <template>
-  <main>
-    <div class="flex flex-col gap-2">
+  <main class="flex flex-col gap-6">
+    <div>
       <div class="font-bold text-2xl">
         Bienvenue {{ user?.prenom }} {{ user?.nom }} !
       </div>
       <div class="opacity-60">
-        Gérez vos évaluations et évaluez vos étudiants.
+        Gérez vos évaluations et notez vos étudiants.
       </div>
     </div>
 
-    <!--      <EtudiantDashboard v-if="user && user.role === 'etudiant'"/>-->
-    <!--      <EnseignantDashboard v-else-if="user && user.role === 'enseignant'"/>-->
+    <EtudiantDashboard v-if="user && user.role === 'etudiant'"/>
+    <EnseignantDashboard v-else-if="user && user.role === 'enseignant'"/>
 
   </main>
 </template>

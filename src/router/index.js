@@ -16,6 +16,15 @@ const router = createRouter({
       component: () => import('../views/auth/LoginView.vue'),
       meta: { guest: true }
     },
+    {
+        path: '/auth/logout',
+        name: 'logout',
+        beforeEnter: (to, from, next) => {
+          const userStore = useUserStore()
+          userStore.logout() // Assurez-vous que cette méthode existe dans votre store
+          next({ name: 'login' })
+        }
+      }
   ],
 })
 

@@ -86,10 +86,14 @@ async function handleLogin() {
       </div>
       <div class="text-sm">
         <div>
-          <span class="font-bold">Adresse mail :</span> enseignant@example.com
+          <span class="font-bold">Enseignant :</span> enseignant@example.com
+          <span class="font-bold">/</span> password
         </div>
+      </div>
+      <div class="text-sm">
         <div>
-          <span class="font-bold">Mot de passe :</span> password
+          <span class="font-bold">Etudiant :</span> etudiant@example.com
+          <span class="font-bold">/</span> password
         </div>
       </div>
     </div>

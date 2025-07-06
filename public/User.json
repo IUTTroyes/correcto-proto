@@ -1,9 +1,20 @@
-{
-  "id": 1,
-  "mail": "enseignant@example.com",
-  "prenom": "John",
-  "nom": "Doe",
-  "password": "password",
-  "role": "user",
-  "token": "sample-jwt-token"
-}
+[
+    {
+      "id": 1,
+      "mail": "enseignant@example.com",
+      "prenom": "John",
+      "nom": "Doe",
+      "password": "password",
+      "role": "enseignant",
+      "token": "sample-jwt-token"
+    },
+    {
+      "id": 2,
+      "mail": "etudiant@example.com",
+      "prenom": "Alice",
+      "nom": "Martin",
+      "password": "password",
+      "role": "etudiant",
+      "token": "sample-jwt-token-etudiant"
+    }
+  ]
