@@ -16,7 +16,7 @@ const router = useRouter();
     <div class="flex flex-col gap-4 bg-white rounded-lg border border-gray-200 p-4 md:w-2/3">
       <div class="flex justify-between items-center">
         <div class="font-bold text-xl">Évaluations en cours</div>
-        <a href="" class="underline text-red-600">Voir toutes <ArrowRightIcon class="inline-block size-4" aria-hidden="true" /></a>
+        <a href="/evaluations" class="underline text-red-600">Voir toutes <ArrowRightIcon class="inline-block size-4" aria-hidden="true" /></a>
       </div>
       <div class="flex flex-col gap-3">
         <div v-for="evaluation in props.evaluations" class="p-1 w-full">

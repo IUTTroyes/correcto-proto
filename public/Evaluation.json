@@ -19,7 +19,7 @@
     "groupe": 1,
     "grille_eval": 1,
     "actif": true,
-    "status": 0,
+    "status": 2,
     "date_debut": "2025-06-01T00:00:00Z",
     "date_fin": "2025-07-31T23:59:59Z",
     "date_creation": "2025-09-15T12:00:00Z",
@@ -100,9 +100,36 @@
     "groupe": 2,
     "grille_eval": 2,
     "actif": true,
-    "status": 1,
+    "status": 3,
     "date_debut": "2025-11-01T00:00:00Z",
     "date_fin": "2025-11-30T23:59:59Z",
+    "date_creation": "2023-10-10T12:00:00Z",
+    "date_modification": "2023-10-15T12:00:00Z",
+    "auteur": 2
+  },
+  {
+    "id": 5,
+    "name": "Déployer une application web",
+    "description": "Mettre en place un environnement de production pour l'application web développée, incluant la configuration du serveur et la base de données.",
+    "ressources": {
+      "1": {
+        "id": 1,
+        "name": "Documentation Express.js",
+        "url": "https://expressjs.com/"
+      },
+      "2": {
+        "id": 2,
+        "name": "Guide sur l'authentification JWT",
+        "url": "https://jwt.io/introduction/"
+      }
+    },
+    "matiere": 1,
+    "groupe": 2,
+    "grille_eval": 2,
+    "actif": true,
+    "status": 1,
+    "date_debut": "2025-05-01T00:00:00Z",
+    "date_fin": "2025-06-01T23:59:59Z",
     "date_creation": "2023-10-10T12:00:00Z",
     "date_modification": "2023-10-15T12:00:00Z",
     "auteur": 2
