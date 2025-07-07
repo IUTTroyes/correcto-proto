@@ -22,7 +22,7 @@ const nav = [
 
 onMounted(async () => {
   user.value = await userStore.user;
-  evaluations.value = await evalStore.getEvaluationsEnseignant(user.value.id, true);
+  evaluations.value = evalStore.evaluationsMatiereEnseignant;
 });
 
 const setCurrentView = (view) => {

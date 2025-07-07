@@ -26,10 +26,16 @@ const userData = computed(() => {
 })
 
 const navigation = [
-  { name: 'Dashboard', href: '/', current: true },
-  { name: 'Sujets', href: '#', current: false },
-  { name: 'Évaluations', href: '#', current: false },
+  { name: 'Dashboard', href: '/' },
+  { name: 'Sujets', href: '/sujets' },
+  { name: 'Évaluations', href: '/evaluations' },
+  { name: 'Groupes', href: '/groupes' },
 ]
+
+// Fonction pour vérifier si une route est active
+const isCurrentRoute = (route) => {
+  return router.currentRoute.value.path === route
+}
 const userNavigation = [
   { name: 'Profil', href: '#' },
   { name: 'Paramètres', href: '#' },
@@ -58,7 +64,6 @@ function logout() {
 
 <template>
   <div class="bg-gray-50 min-h-screen w-full">
-    <!-- Only show header when user is authenticated -->
     <header v-if="userStore.isAuthenticated" class="bg-white shadow-sm">
       <nav>
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -71,12 +76,12 @@ function logout() {
               <div class="hidden md:block">
                 <div class="ml-10 flex items-baseline space-x-4">
                   <RouterLink
-                    v-for="navItem in navigation"
-                    :key="navItem.name"
-                    :to="navItem.href"
-                    class="rounded-md px-3 py-2 text-sm font-medium hover:bg-red-400 hover:text-white"
-                    :class="navItem.current ? 'bg-gray-100 pointer-events-none' : ''"
-                    aria-current="page">
+                      v-for="navItem in navigation"
+                      :key="navItem.name"
+                      :to="navItem.href"
+                      class="rounded-md px-3 py-2 text-sm font-medium hover:bg-red-400 hover:text-white"
+                      :class="isCurrentRoute(navItem.href) ? 'bg-gray-100 pointer-events-none' : ''"
+                      aria-current="page">
                     {{ navItem.name }}
                   </RouterLink>
                 </div>
@@ -100,12 +105,12 @@ function logout() {
 
                   <div v-if="isUserMenuOpen" class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button">
                     <a
-                      v-for="navUserItem in userNavigation"
-                      :key="navUserItem.name"
-                      href="#"
-                      @click.prevent="navUserItem.action ? navUserItem.action() : null"
-                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-400 hover:text-white"
-                      role="menuitem"
+                        v-for="navUserItem in userNavigation"
+                        :key="navUserItem.name"
+                        href="#"
+                        @click.prevent="navUserItem.action ? navUserItem.action() : null"
+                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-400 hover:text-white"
+                        role="menuitem"
                     >
                       {{ navUserItem.name }}
                     </a>
@@ -128,10 +133,10 @@ function logout() {
         <div v-if="isMobileMenuOpen" class="md:hidden" id="mobile-menu">
           <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
             <RouterLink
-              v-for="navItem in navigation"
-              :key="navItem.name"
-              :to="navItem.href"
-              class="block rounded-md px-3 py-2 text-base font-medium hover:bg-red-400 hover:text-white"
+                v-for="navItem in navigation"
+                :key="navItem.name"
+                :to="navItem.href"
+                class="block rounded-md px-3 py-2 text-base font-medium hover:bg-red-400 hover:text-white"
             >
               {{ navItem.name }}
             </RouterLink>
@@ -148,11 +153,11 @@ function logout() {
             </div>
             <div class="mt-3 space-y-1 px-2">
               <a
-                v-for="navUserItem in userNavigation"
-                :key="navUserItem.name"
-                href="#"
-                @click.prevent="navUserItem.action ? navUserItem.action() : null"
-                class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-red-400 hover:text-white"
+                  v-for="navUserItem in userNavigation"
+                  :key="navUserItem.name"
+                  href="#"
+                  @click.prevent="navUserItem.action ? navUserItem.action() : null"
+                  class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-red-400 hover:text-white"
               >
                 {{ navUserItem.name }}
               </a>
@@ -163,7 +168,7 @@ function logout() {
     </header>
 
     <!-- Main content -->
-    <main class="">
+    <main>
       <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <RouterView />
       </div>

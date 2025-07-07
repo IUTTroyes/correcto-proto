@@ -16,12 +16,8 @@ onMounted(async () => {
 <template>
   <main class="flex flex-col gap-6">
     <div class="p-6">
-      <div class="font-bold text-2xl">
-        Bienvenue {{ user?.prenom }} {{ user?.nom }} !
-      </div>
-      <div class="opacity-60">
-        Gérez vos évaluations et notez vos étudiants.
-      </div>
+      <h1 class="text-2xl font-bold">Bienvenue {{ user?.prenom }} {{ user?.nom }} !</h1>
+      <p class="text-gray-600">Gérez vos évaluations et notez vos étudiants.</p>
     </div>
 
     <EtudiantDashboard v-if="user && user.role === 'etudiant'"/>

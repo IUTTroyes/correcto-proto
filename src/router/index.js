@@ -17,14 +17,29 @@ const router = createRouter({
       meta: { guest: true }
     },
     {
-        path: '/auth/logout',
-        name: 'logout',
-        beforeEnter: (to, from, next) => {
-          const userStore = useUserStore()
-          userStore.logout() // Assurez-vous que cette méthode existe dans votre store
-          next({ name: 'login' })
-        }
+      path: '/auth/logout',
+      name: 'logout',
+      beforeEnter: (to, from, next) => {
+        const userStore = useUserStore()
+        userStore.logout() // Assurez-vous que cette méthode existe dans votre store
+        next({ name: 'login' })
       }
+    },
+    {
+      path: '/groupes',
+      name: 'groupes',
+      component: () => import('../views/GroupesView.vue'),
+    },
+    {
+      path: '/sujets',
+      name: 'sujets',
+      component: () => import('../views/SujetsView.vue'),
+    },
+    {
+      path: '/evaluations',
+      name: 'evaluations',
+      component: () => import('../views/EvaluationsView.vue'),
+    },
   ],
 })
 

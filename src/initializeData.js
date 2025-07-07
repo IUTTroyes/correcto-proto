@@ -1,0 +1,19 @@
+import { useEvalStore } from './stores/evaluation'
+import { useUserStore } from './stores/user'
+
+export async function initializeData() {
+    const evalStore = useEvalStore()
+    const userStore = useUserStore()
+
+    // Récupérer l'utilisateur connecté depuis le userStore
+    const isAuthenticated = await userStore.checkAuth()
+
+    if (isAuthenticated && userStore.user) {
+        // Charger toutes les évaluations
+        await evalStore.getEvaluations()
+        // Charger les évaluations spécifiques à l'enseignant
+        await evalStore.getEvaluationsEnseignant(userStore.user.id)
+        // Charger les évaluations des matières de l'enseignant
+        await evalStore.getEvaluationsMatieresEnseignant(userStore.user.id)
+    }
+}

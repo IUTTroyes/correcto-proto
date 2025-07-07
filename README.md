@@ -34,3 +34,7 @@ npm run build
 - Vaut-il mieux créer une simple banque de critères ou des grilles d'évaluation ?
   1. Quand on créé une éval on choisit les critères 1/1
   2. Quand on créé une éval on choisit une grille d'évaluation qui contient N critères
+
+## Notes
+
+- Evaluations.status = 0 => en attente, 1 => en cours, 2 => terminée, 3 => annulée
