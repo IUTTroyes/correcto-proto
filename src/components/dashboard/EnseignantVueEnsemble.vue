@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import {ArrowRightIcon, BookOpenIcon} from "@heroicons/vue/24/outline";
-import {XCircleIcon} from "@heroicons/vue/24/solid";
+import { ArrowRightIcon, BookOpenIcon } from "@heroicons/vue/24/outline";
+import { XCircleIcon } from "@heroicons/vue/24/solid";
+import { useRouter } from "vue-router";
+import type { Evaluation } from "@/types/Evaluation";
 
-const props = defineProps({
-  evaluations: {
-    type: Array,
-    required: true
-  }
-});
+const props = defineProps<{
+  evaluations: Evaluation[];
+}>();
+
+const router = useRouter();
 </script>
 
 <template>
@@ -32,22 +33,21 @@ const props = defineProps({
             <div>
               <div class="flex md:justify-start justify-between items-center gap-2">
                 <div class="text-xs p-1 bg-blue-100 rounded-md text-blue-600 font-bold">
-
-              <span v-if="evaluation.date_fin && evaluation.date_debut" class="flex items-center gap-1">
-                <ArrowRightIcon class="inline-block size-3" aria-hidden="true" />
-              {{
-                  Math.max(
-                      0,
-                      Math.floor(
-                          (new Date(evaluation.date_fin) - new Date()) / (1000 * 60 * 60 * 24)
-                      )
-                  )
-                }} jours
-            </span>
+                        <span v-if="evaluation.date_fin && evaluation.date_debut" class="flex items-center gap-1">
+                          <ArrowRightIcon class="inline-block size-3" aria-hidden="true" />
+                          {{
+                            Math.max(
+                                0,
+                                Math.floor(
+                                    (new Date(evaluation.date_fin as string).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)
+                                )
+                            )
+                          }} jours
+                        </span>
                 </div>
                 <button
                     class="px-3 py-1 bg-red-400 text-white rounded-md text-sm hover:bg-red-500 transition-colors cursor-pointer"
-                    @click="$router.push({ name: 'evaluation', params: { id: evaluation.id } })">
+                    @click="router.push({ name: 'evaluation', params: { id: evaluation.id } })">
                   Détails
                 </button>
               </div>
@@ -78,5 +78,4 @@ const props = defineProps({
 </template>
 
 <style scoped>
-
 </style>
