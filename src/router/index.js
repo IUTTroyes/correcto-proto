@@ -29,24 +29,27 @@ const router = createRouter({
       path: '/groupes',
       name: 'groupes',
       component: () => import('../views/GroupesView.vue'),
+      meta: { requiresAuth: true }
     },
     {
       path: '/sujets',
       name: 'sujets',
       component: () => import('../views/SujetsView.vue'),
+      meta: { requiresAuth: true }
     },
     {
       path: '/evaluations',
       name: 'evaluations',
       component: () => import('../views/EvaluationsView.vue'),
+      meta: { requiresAuth: true }
     },
   ],
 })
 
 // Navigation guard to check authentication for protected routes
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore()
-  const isAuthenticated = userStore.checkAuth()
+  const isAuthenticated = await userStore.checkAuth()
 
   // If route requires authentication and user is not authenticated
   if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated) {
