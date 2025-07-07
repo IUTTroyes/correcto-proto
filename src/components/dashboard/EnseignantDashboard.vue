@@ -1,9 +1,9 @@
 <script setup>
-import {useUserStore} from "@/stores/user.js";
+import { ref, onMounted } from "vue";
+import { useUserStore } from "@/stores/user.js";
 import { useEvalStore } from "@/stores/evaluation.js";
-import {onMounted, ref} from "vue";
-import { BookOpenIcon, ArrowRightIcon } from '@heroicons/vue/24/outline'
-import { XCircleIcon } from '@heroicons/vue/24/solid'
+import { ChartPieIcon, ExclamationTriangleIcon, UsersIcon, ArrowTrendingUpIcon } from '@heroicons/vue/24/outline';
+import EnseignantVueEnsemble from "@/components/dashboard/EnseignantVueEnsemble.vue";
 
 const userStore = useUserStore();
 const user = ref(null);
@@ -11,78 +11,51 @@ const user = ref(null);
 const evalStore = useEvalStore();
 const evaluations = ref([]);
 
+const currentView = ref('overview'); // Vue par défaut
+
+const nav = [
+  { name: 'Vue d\'ensemble', view: 'overview', icon: ChartPieIcon },
+  { name: 'Alertes', view: 'alerts', icon: ExclamationTriangleIcon },
+  { name: 'Suivi des étudiants', view: 'students', icon: UsersIcon },
+  { name: 'Engagement', view: 'engagement', icon: ArrowTrendingUpIcon }
+];
+
 onMounted(async () => {
   user.value = await userStore.user;
-
   evaluations.value = await evalStore.getEvaluationsEnseignant(user.value.id, true);
-  console.log(evaluations.value);
 });
+
+const setCurrentView = (view) => {
+  currentView.value = view;
+};
 </script>
 
 <template>
-  <div class="flex md:flex-row flex-col gap-4 w-full">
-    <div class="flex flex-col gap-4 bg-white rounded-lg border border-gray-200 p-4 md:w-2/3">
-      <div class="font-bold text-xl">Évaluations en cours</div>
-      <div class="flex flex-col gap-3">
-        <div v-for="evaluation in evaluations" class="p-1 w-full">
-          <div class="flex md:flex-row flex-col justify-between md:items-center">
-            <div class="flex items-center gap-2 md:max-w-2/3">
-              <div class="bg-red-100 p-2 rounded-md">
-                <BookOpenIcon class="inline-block size-6 text-red-400" aria-hidden="true" />
-              </div>
-              <div>
-                <div>{{evaluation.name}}</div>
-                <div class="text-sm opacity-60"><span>{{evaluation.matiereDetails?.name}}</span> | <span>{{evaluation.groupeDetails.semestre}} - {{evaluation.groupeDetails.type}} {{evaluation.groupeDetails.name}}</span></div>
-              </div>
-            </div>
-            <div>
-              <div class="flex md:justify-start justify-between items-center gap-2">
-                <div class="text-xs p-1 bg-blue-100 rounded-md text-blue-600 font-bold">
-
-              <span v-if="evaluation.date_fin && evaluation.date_debut" class="flex items-center gap-1">
-                <ArrowRightIcon class="inline-block size-3" aria-hidden="true" />
-              {{
-                  Math.max(
-                      0,
-                      Math.floor(
-                          (new Date(evaluation.date_fin) - new Date()) / (1000 * 60 * 60 * 24)
-                      )
-                  )
-                }} jours
-            </span>
-                </div>
-                <button
-                    class="px-3 py-1 bg-red-400 text-white rounded-md text-sm hover:bg-red-500 transition-colors cursor-pointer"
-                    @click="$router.push({ name: 'evaluation', params: { id: evaluation.id } })">
-                  Détails
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+  <div class="flex flex-row w-full gap-8 border-b border-gray-200">
+    <div
+        v-for="item in nav"
+        :key="item.name"
+        class="flex flex-row items-center gap-2 opacity-60 p-2 hover:border-b-2 hover:border-b-gray-600 border-b-2 border-b-transparent hover:opacity-90 transition-all hover:cursor-pointer"
+        :class="{ 'opacity-100 !border-b-red-600 text-red-600': currentView === item.view }"
+        @click="setCurrentView(item.view)">
+      <component :is="item.icon" class="inline-block size-6 text-gray-500" aria-hidden="true" />
+      <span class="font-bold text-sm">{{ item.name }}</span>
     </div>
+  </div>
 
-    <div class="flex flex-col gap-4 bg-white rounded-lg border border-gray-200 p-4 md:w-1/3">
-      <div class="font-bold text-xl">Activités récentes</div>
-      <div class="flex flex-col">
-        <div class="p-1 w-full">
-          <div class="text-sm"><XCircleIcon class="inline-block size-3 text-green-500" aria-hidden="true"/> Machin a rendu : <span class="font-bold">Développer une application web complète et fonctionnelle</span></div>
-          <span class="text-xs opacity-60">Il y a 1 jour</span>
-        </div>
-        <div class="p-1 w-full">
-          <div class="text-sm"><XCircleIcon class="inline-block size-3 text-blue-500" aria-hidden="true"/> Évaluation terminée pour <span class="font-bold">TP Algorithmes</span></div>
-          <span class="text-xs opacity-60">Il y a 2 jours</span>
-        </div>
-        <div class="p-1 w-full">
-          <div class="text-sm"><XCircleIcon class="inline-block size-3 text-amber-500" aria-hidden="true"/> Rappel envoyé pour échéance <span class="font-bold">Base de Données</span></div>
-          <span class="text-xs opacity-60">Il y a 2 jours</span>
-        </div>
-      </div>
-    </div>
+  <div v-if="currentView === 'overview'">
+    <EnseignantVueEnsemble :evaluations="evaluations" />
+  </div>
+  <div v-else-if="currentView === 'alerts'">
+    <div>Composant Alertes</div>
+  </div>
+  <div v-else-if="currentView === 'students'">
+    <div>Composant Suivi des étudiants</div>
+  </div>
+  <div v-else-if="currentView === 'engagement'">
+    <div>Composant Engagement</div>
   </div>
 </template>
 
 <style scoped>
-
 </style>
