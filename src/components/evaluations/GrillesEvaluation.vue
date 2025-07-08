@@ -6,6 +6,8 @@ import {BarsArrowUpIcon, BarsArrowDownIcon, DocumentTextIcon} from "@heroicons/v
 const grilleStore = useGrilleEvaluationStore();
 
 const selectedFilter = ref<'perso' | 'matieres' | 'all'>('perso');
+const selectedType = ref<'classique' | 'auto' | ''>('');
+const selectedAuteur = ref<'1' | '2' | ''>('');
 const grilles = ref(grilleStore.grilles);
 
 const sortKey = ref<string | null>(null);
@@ -57,20 +59,41 @@ watch([sortKey, sortOrder], () => {
           <option value="all">Toutes les grilles</option>
         </select>
 
-        <div class="text-sm text-gray-500 mt-1">Trier par</div>
-        <div class="flex items-center gap-2 text-sm">
-            <button @click="toggleSort('name')" class="flex items-center gap-1 hover:underline hover:cursor-pointer text-red-500">
-              <BarsArrowUpIcon class="inline-block size-3" aria-hidden="true" v-if="sortKey === 'name' && sortOrder === 'asc'"/>
-              <BarsArrowDownIcon class="inline-block size-3" aria-hidden="true" v-if="sortKey === 'name' && sortOrder === 'desc'"/>
-              Nom
-            </button>
-            <span class="text-gray-400">|</span>
-            <button @click="toggleSort('date_modification')" class="flex items-center gap-1 hover:underline hover:cursor-pointer text-red-500">
-              <BarsArrowUpIcon class="inline-block size-3" aria-hidden="true" v-if="sortKey === 'date_modification' && sortOrder === 'asc'"/>
-              <BarsArrowDownIcon class="inline-block size-3" aria-hidden="true" v-if="sortKey === 'date_modification' && sortOrder === 'desc'"/>
-              Date de création
-            </button>
+        <div class="flex gap-6 w-full">
+          <div class="w-1/2">
+            <div class="text-sm font-medium">
+              Filtres additionnels :
+            </div>
+            <div class="flex gap-2">
+              <select id="filter" class="border border-gray-300 rounded-md p-1 w-1/2" v-model="selectedType">
+                <option value="">Tous types</option>
+                <option value="classique">Classique</option>
+                <option value="auto">Auto-evaluation</option>
+              </select>
+              <select id="filter" v-model="selectedAuteur" class="border border-gray-300 rounded-md p-1 w-1/2">
+                <option value="">Tous auteurs</option>
+                <option value="1">user1</option>
+                <option value="2">user2</option>
+              </select>
+            </div>
           </div>
+          <div class="w-1/2">
+            <div class="text-sm font-medium">Trier par :</div>
+            <div class="flex items-center gap-2 text-sm">
+              <button @click="toggleSort('name')" class="flex items-center gap-1 hover:underline hover:cursor-pointer text-red-500">
+                <BarsArrowUpIcon class="inline-block size-3" aria-hidden="true" v-if="sortKey === 'name' && sortOrder === 'asc'"/>
+                <BarsArrowDownIcon class="inline-block size-3" aria-hidden="true" v-if="sortKey === 'name' && sortOrder === 'desc'"/>
+                Nom
+              </button>
+              <span class="text-gray-400">|</span>
+              <button @click="toggleSort('date_modification')" class="flex items-center gap-1 hover:underline hover:cursor-pointer text-red-500">
+                <BarsArrowUpIcon class="inline-block size-3" aria-hidden="true" v-if="sortKey === 'date_modification' && sortOrder === 'asc'"/>
+                <BarsArrowDownIcon class="inline-block size-3" aria-hidden="true" v-if="sortKey === 'date_modification' && sortOrder === 'desc'"/>
+                Date de création
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div v-if="grilles.length === 0" class="flex flex-col gap-2 mt-4 justify-center items-center mb-12">
