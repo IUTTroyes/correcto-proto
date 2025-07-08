@@ -3,7 +3,7 @@ import { useEvalStore } from '@/stores/evaluation';
 import { ref, onMounted, computed, watch } from 'vue';
 import type { Evaluation } from "@/types/Evaluation";
 import EvaluationDetailsModal from "@/components/evaluations/EvaluationDetailsModal.vue";
-import { DocumentTextIcon, ExclamationTriangleIcon } from "@heroicons/vue/24/outline";
+import {DocumentTextIcon, ExclamationTriangleIcon, PlusIcon} from "@heroicons/vue/24/outline";
 import { ArrowRightIcon } from "@heroicons/vue/24/outline/index.js";
 
 const evalStore = useEvalStore();
@@ -70,6 +70,7 @@ watch(isModalOpen, (newValue) => {
     <div class="flex flex-col gap-4 bg-white rounded-lg border border-gray-200 p-4 w-full">
       <div class="flex justify-between items-center">
         <div class="font-bold text-xl">Liste des évaluations</div>
+        <button class="px-3 py-1 bg-red-400 text-white rounded-md text-sm hover:bg-red-500 transition-colors cursor-pointer flex items-center gap-1"><PlusIcon class="inline-block size-4" aria-hidden="true"/>Créer une évaluation</button>
       </div>
 
       <div class="flex flex-col gap-2 mt-4">
