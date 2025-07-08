@@ -9,7 +9,10 @@ const user = ref(null);
 
 onMounted(async () => {
   user.value = await userStore.user;
-  console.log(user.value);
+  if (!user.value) {
+    // Redirection si l'utilisateur n'est pas connecté
+    userStore.checkAuth();
+  }
 });
 </script>
 

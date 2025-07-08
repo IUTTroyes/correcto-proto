@@ -9,7 +9,7 @@ const userStore = useUserStore();
 const user = ref(null);
 
 const evalStore = useEvalStore();
-const evaluations = ref([]);
+const enseignantEvaluations = ref([]);
 
 const currentView = ref('overview'); // Vue par défaut
 
@@ -22,7 +22,7 @@ const nav = [
 
 onMounted(async () => {
   user.value = await userStore.user;
-  evaluations.value = evalStore.evaluationsMatiereEnseignant;
+  enseignantEvaluations.value = evalStore.evaluationsMatiereEnseignant;
 });
 
 const setCurrentView = (view) => {
@@ -43,8 +43,8 @@ const setCurrentView = (view) => {
     </div>
   </div>
 
-  <div v-if="currentView === 'overview'">
-    <EnseignantVueEnsemble :evaluations="evaluations" />
+  <div v-if="currentView === 'overview' && enseignantEvaluations.length > 0">
+    <EnseignantVueEnsemble :enseignantEvaluations="enseignantEvaluations" />
   </div>
   <div v-else-if="currentView === 'alerts'">
     <div>Composant Alertes</div>

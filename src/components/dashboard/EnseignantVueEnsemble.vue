@@ -1,12 +1,19 @@
 <script setup lang="ts">
+import {onMounted, ref} from "vue";
 import {ArrowRightIcon, BookOpenIcon, ExclamationTriangleIcon} from "@heroicons/vue/24/outline";
 import { XCircleIcon } from "@heroicons/vue/24/solid";
 import { useRouter } from "vue-router";
 import type { Evaluation } from "@/types/Evaluation";
 
+const evalsEnCours = ref<Evaluation[]>([]);
+
 const props = defineProps<{
-  evaluations: Evaluation[];
+  enseignantEvaluations: Evaluation[];
 }>();
+
+onMounted(() => {
+  evalsEnCours.value = props.enseignantEvaluations.filter(evaluation => evaluation.status === 1);
+});
 
 const router = useRouter();
 </script>
@@ -15,11 +22,11 @@ const router = useRouter();
   <div class="flex md:flex-row flex-col gap-4 w-full">
     <div class="flex flex-col gap-4 bg-white rounded-lg border border-gray-200 p-4 md:w-2/3">
       <div class="flex justify-between items-center">
-        <div class="font-bold text-xl">Évaluations en cours</div>
+        <div class="font-bold text-xl">Mes évaluations en cours</div>
         <a href="/evaluations" class="underline text-red-600">Voir toutes <ArrowRightIcon class="inline-block size-4" aria-hidden="true" /></a>
       </div>
       <div class="flex flex-col gap-3">
-        <div v-for="evaluation in props.evaluations" class="p-1 w-full">
+        <div v-for="evaluation in evalsEnCours" class="p-1 w-full">
           <div class="flex md:flex-row flex-col justify-between md:items-center">
             <div class="flex items-center gap-2 md:max-w-2/3">
               <div class="bg-red-100 p-2 rounded-md">

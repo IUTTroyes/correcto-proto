@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useEvalStore } from '@/stores/evaluation';
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import type { Evaluation } from "@/types/Evaluation";
-
+import EvaluationDetailsModal from "@/components/evaluations/EvaluationDetailsModal.vue";
 import { DocumentTextIcon, ExclamationTriangleIcon } from "@heroicons/vue/24/outline";
 import { ArrowRightIcon } from "@heroicons/vue/24/outline/index.js";
 
@@ -12,6 +12,8 @@ const allEvaluations = ref<Evaluation[]>([]);
 const mesEvaluations = ref<Evaluation[]>([]);
 const mesMatieresEvaluations = ref<Evaluation[]>([]);
 const selectedFilter = ref<'perso' | 'matieres' | 'all'>('perso'); // Typage des filtres
+const selectedEvaluation = ref<Evaluation | null>(null);
+const isModalOpen = ref(false);
 
 onMounted(async () => {
   try {
@@ -46,6 +48,20 @@ const evaluations = computed(() => {
     return allEvaluations.value;
   }
   return [];
+});
+
+const openModal = (evaluation: Evaluation) => {
+  selectedEvaluation.value = evaluation;
+  isModalOpen.value = true;
+};
+
+const closeModal = () => {
+  selectedEvaluation.value = null;
+  isModalOpen.value = false;
+};
+
+watch(isModalOpen, (newValue) => {
+  document.body.style.overflow = newValue ? 'hidden' : '';
 });
 </script>
 
@@ -135,7 +151,7 @@ const evaluations = computed(() => {
               </div>
               <button
                   class="px-3 py-1 bg-red-400 text-white rounded-md text-sm hover:bg-red-500 transition-colors cursor-pointer"
-                  @click="router.push({ name: 'evaluation', params: { id: evaluation.id } })">
+                  @click="openModal(evaluation)">
                 Détails
               </button>
             </div>
@@ -144,4 +160,6 @@ const evaluations = computed(() => {
       </div>
     </div>
   </div>
+  <EvaluationDetailsModal v-if="isModalOpen" :evaluation="selectedEvaluation" @close="closeModal"/>
+
 </template>

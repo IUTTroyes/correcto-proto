@@ -55,7 +55,6 @@ export const useEvalStore = defineStore('eval', () => {
     } catch (error) {
       console.error('Error fetching evaluations data:', error)
     } finally {
-      console.log(evaluations.value)
     }
   }
 
@@ -119,7 +118,19 @@ export const useEvalStore = defineStore('eval', () => {
     evaluations.value.forEach(evaluation => {
       const startDate = evaluation.date_debut ? new Date(evaluation.date_debut) : null
       if (startDate && startDate <= today && evaluation.status === 0) {
-        console.log(`Updating evaluation ${evaluation.id} status to ${nouveauStatus}`)
+        evaluation.status = nouveauStatus
+      }
+    })
+    // mettre à jour dans les autres listes
+    evaluationsEnseignant.value.forEach(evaluation => {
+      const startDate = evaluation.date_debut ? new Date(evaluation.date_debut) : null
+      if (startDate && startDate <= today && evaluation.status === 0) {
+        evaluation.status = nouveauStatus
+      }
+    })
+    evaluationsMatiereEnseignant.value.forEach(evaluation => {
+      const startDate = evaluation.date_debut ? new Date(evaluation.date_debut) : null
+      if (startDate && startDate <= today && evaluation.status === 0) {
         evaluation.status = nouveauStatus
       }
     })

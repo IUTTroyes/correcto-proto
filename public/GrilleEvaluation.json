@@ -7,7 +7,8 @@
     "total_points": 20,
     "date_creation": "2023-09-01T10:00:00Z",
     "date_modification": "2023-09-10T14:30:00Z",
-    "auteur": 1
+    "auteur": 1,
+    "type": "auto-evaluation"
   },
   {
     "id": 2,
@@ -17,7 +18,7 @@
     "total_points": 15,
     "date_creation": "2023-10-05T09:15:00Z",
     "date_modification": "2023-10-12T11:45:00Z",
-    "auteur": 2
+    "auteur": 1
   },
   {
     "id": 3,
@@ -28,5 +29,15 @@
     "date_creation": "2023-11-15T08:30:00Z",
     "date_modification": "2023-11-20T16:20:00Z",
     "auteur": 3
+  },
+  {
+    "id": 4,
+    "name": "Grille d'évaluation - Sécurité",
+    "description": "Critères d'évaluation pour les projets de sécurité informatique",
+    "criteres": [11, 12],
+    "total_points": 12,
+    "date_creation": "2023-12-01T10:00:00Z",
+    "date_modification": "2023-12-05T14:30:00Z",
+    "auteur": 1
   }
 ]

@@ -15,7 +15,8 @@
     "nom": "Martin",
     "password": "password",
     "role": "etudiant",
-    "token": "sample-jwt-token-etudiant"
+    "token": "sample-jwt-token-etudiant",
+    "groupe": 1
   },
   {
     "id": 3,
@@ -25,5 +26,46 @@
     "password": "password",
     "role": "enseignant",
     "token": "sample-jwt-token"
+  },
+  {
+    "id": 4,
+    "mail": "etudiant2@example.com",
+    "prenom": "Claire",
+    "nom": "Dupont",
+    "password": "password",
+    "role": "etudiant",
+    "token": "sample-jwt-token-etudiant2",
+    "groupe": 1
+  },
+  {
+    "id": 5,
+    "mail": "etudiant3@example.com",
+    "prenom": "David",
+    "nom": "Lefevre",
+    "password": "password",
+    "role": "etudiant",
+    "token": "sample-jwt-token-etudiant3",
+    "groupe": 2
+  },
+  {
+    "id": 6,
+    "mail": "etudiant4@example.com",
+    "prenom": "Eva",
+    "nom": "Moreau",
+    "password": "password",
+    "role": "etudiant",
+    "token": "sample-jwt-token-etudiant4",
+    "groupe": 2
+  },
+  {
+    "id": 7,
+    "mail": "etudiant5@example.com",
+    "prenom": "François",
+    "nom": "Bernard",
+    "password": "password",
+    "role": "etudiant",
+    "token": "sample-jwt-token-etudiant5",
+    "groupe": 3
   }
+
 ]

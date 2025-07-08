@@ -69,7 +69,7 @@
         "url": "https://vue-test-utils.vuejs.org/"
       }
     },
-    "matiere": 3,
+    "matiere": 2,
     "groupe": 3,
     "grille_eval": 3,
     "actif": true,
@@ -96,7 +96,7 @@
         "url": "https://jwt.io/introduction/"
       }
     },
-    "matiere": 2,
+    "matiere": 3,
     "groupe": 2,
     "grille_eval": 2,
     "actif": true,
