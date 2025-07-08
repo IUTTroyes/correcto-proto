@@ -12,6 +12,8 @@ export interface Evaluation {
   name: string;
   matiereDetails?: MatiereDetails;
   groupeDetails: GroupeDetails;
+  joursRestants?: number;
+  status: number;
   date_fin?: string;
   date_debut?: string;
   id: string;

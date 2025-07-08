@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ArrowRightIcon, BookOpenIcon } from "@heroicons/vue/24/outline";
+import {ArrowRightIcon, BookOpenIcon, ExclamationTriangleIcon} from "@heroicons/vue/24/outline";
 import { XCircleIcon } from "@heroicons/vue/24/solid";
 import { useRouter } from "vue-router";
 import type { Evaluation } from "@/types/Evaluation";
@@ -32,18 +32,17 @@ const router = useRouter();
             </div>
             <div>
               <div class="flex md:justify-start justify-between items-center gap-2">
-                <div class="text-xs p-1 bg-blue-100 rounded-md text-blue-600 font-bold">
-                        <span v-if="evaluation.date_fin && evaluation.date_debut" class="flex items-center gap-1">
-                          <ArrowRightIcon class="inline-block size-3" aria-hidden="true" />
-                          {{
-                            Math.max(
-                                0,
-                                Math.floor(
-                                    (new Date(evaluation.date_fin as string).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)
-                                )
-                            )
-                          }} jours
-                        </span>
+                <div v-if="evaluation.joursRestants > 0 && evaluation.status === 1" class="text-xs p-1 bg-blue-100 rounded-md text-blue-600 font-bold">
+                <span v-if="evaluation.date_fin && evaluation.date_debut" class="flex items-center gap-1">
+                  <ArrowRightIcon class="inline-block size-3" aria-hidden="true" />
+                  {{ evaluation.joursRestants }} jours
+                </span>
+                </div>
+                <div v-else-if="evaluation.joursRestants < 0 && evaluation.status === 1" class="text-xs p-1 bg-amber-100 rounded-md text-amber-600 font-bold">
+                <span class="flex items-center gap-1">
+                  <ExclamationTriangleIcon class="inline-block size-3" aria-hidden="true" />
+                  En retard de {{ evaluation.joursRestants }} jours
+                </span>
                 </div>
                 <button
                     class="px-3 py-1 bg-red-400 text-white rounded-md text-sm hover:bg-red-500 transition-colors cursor-pointer"

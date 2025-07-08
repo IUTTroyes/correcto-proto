@@ -74,8 +74,8 @@
     "grille_eval": 3,
     "actif": true,
     "status": 0,
-    "date_debut": "2023-12-01T00:00:00Z",
-    "date_fin": "2023-12-15T23:59:59Z",
+    "date_debut": "2025-05-27T00:00:00Z",
+    "date_fin": "2025-08-12T23:59:59Z",
     "date_creation": "2023-11-20T12:00:00Z",
     "date_modification": "2023-11-25T12:00:00Z",
     "auteur": 1

@@ -11,6 +11,8 @@ export async function initializeData() {
     if (isAuthenticated && userStore.user) {
         // Charger toutes les évaluations
         await evalStore.getEvaluations()
+        // Vérifier si les évaluations sont en cours en fonction de la date actuelle et de la date de début
+        await evalStore.updateStatusEvaluationsEnCours(1);
         // Charger les évaluations spécifiques à l'enseignant
         await evalStore.getEvaluationsEnseignant(userStore.user.id)
         // Charger les évaluations des matières de l'enseignant

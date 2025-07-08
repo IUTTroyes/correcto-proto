@@ -1,63 +1,52 @@
-<script setup>
-import { useEvalStore } from '@/stores/evaluation'
-import { ref, onMounted, computed } from 'vue'
-import { useRouter } from "vue-router";
+<script setup lang="ts">
+import { useEvalStore } from '@/stores/evaluation';
+import { ref, onMounted, computed } from 'vue';
+import type { Evaluation } from "@/types/Evaluation";
 
 import { DocumentTextIcon, ExclamationTriangleIcon } from "@heroicons/vue/24/outline";
-import {ArrowRightIcon, BookOpenIcon} from "@heroicons/vue/24/outline/index.js";
+import { ArrowRightIcon } from "@heroicons/vue/24/outline/index.js";
 
-const evalStore = useEvalStore()
+const evalStore = useEvalStore();
 
-const allEvaluations = ref([])
-const mesEvaluations = ref([])
-const mesMatieresEvaluations = ref([])
-const selectedFilter = ref('perso') // Valeur par défaut du filtre
+const allEvaluations = ref<Evaluation[]>([]);
+const mesEvaluations = ref<Evaluation[]>([]);
+const mesMatieresEvaluations = ref<Evaluation[]>([]);
+const selectedFilter = ref<'perso' | 'matieres' | 'all'>('perso'); // Typage des filtres
 
 onMounted(async () => {
   try {
-    // Vérifiez si les données existent avant de les assigner
     if (evalStore.evaluationsEnseignant) {
-      mesEvaluations.value = evalStore.evaluationsEnseignant
+      mesEvaluations.value = evalStore.evaluationsEnseignant;
     } else {
-      console.warn('Aucune donnée trouvée pour evaluationsEnseignant')
+      console.warn('Aucune donnée trouvée pour evaluationsEnseignant');
     }
 
     if (evalStore.evaluationsMatiereEnseignant) {
-      mesMatieresEvaluations.value = evalStore.evaluationsMatiereEnseignant
+      mesMatieresEvaluations.value = evalStore.evaluationsMatiereEnseignant;
     } else {
-      console.warn('Aucune donnée trouvée pour evaluationsMatiereEnseignant')
+      console.warn('Aucune donnée trouvée pour evaluationsMatiereEnseignant');
     }
 
     if (evalStore.evaluations) {
-      allEvaluations.value = evalStore.evaluations
+      allEvaluations.value = evalStore.evaluations;
     } else {
-      console.warn('Aucune donnée trouvée pour evaluations')
+      console.warn('Aucune donnée trouvée pour evaluations');
     }
   } catch (error) {
-    console.error('Erreur lors du chargement des évaluations :', error)
+    console.error('Erreur lors du chargement des évaluations :', error);
   }
-})
+});
 
-// Propriété calculée pour filtrer les évaluations
 const evaluations = computed(() => {
   if (selectedFilter.value === 'perso') {
-    return mesEvaluations.value
+    return mesEvaluations.value;
   } else if (selectedFilter.value === 'matieres') {
-    return mesMatieresEvaluations.value
+    return mesMatieresEvaluations.value;
   } else if (selectedFilter.value === 'all') {
-    return allEvaluations.value
+    return allEvaluations.value;
   }
-  return []
-})
-
-// Fonction pour calculer les jours restants ou de retard
-const calcJoursRestants = (dateFin) => {
-  const today = new Date();
-  const endDate = new Date(dateFin);
-  const diffTime = endDate - today;
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  return diffDays; // Retourne un nombre négatif si la date de fin est dépassée
-};
+  return [];
+});
 </script>
 
 <template>
@@ -132,16 +121,16 @@ const calcJoursRestants = (dateFin) => {
           </div>
           <div>
             <div class="flex md:justify-start justify-between items-center gap-2">
-              <div v-if="calcJoursRestants(evaluation.date_fin) > 0 && evaluation.status === 1" class="text-xs p-1 bg-blue-100 rounded-md text-blue-600 font-bold">
+              <div v-if="evaluation.joursRestants > 0 && evaluation.status === 1" class="text-xs p-1 bg-blue-100 rounded-md text-blue-600 font-bold">
                 <span v-if="evaluation.date_fin && evaluation.date_debut" class="flex items-center gap-1">
                   <ArrowRightIcon class="inline-block size-3" aria-hidden="true" />
-                  {{ calcJoursRestants(evaluation.date_fin) }} jours
+                  {{ evaluation.joursRestants }} jours
                 </span>
               </div>
-              <div v-else-if="calcJoursRestants(evaluation.date_fin) < 0 && evaluation.status === 1" class="text-xs p-1 bg-amber-100 rounded-md text-amber-600 font-bold">
+              <div v-else-if="evaluation.joursRestants < 0 && evaluation.status === 1" class="text-xs p-1 bg-amber-100 rounded-md text-amber-600 font-bold">
                 <span class="flex items-center gap-1">
                   <ExclamationTriangleIcon class="inline-block size-3" aria-hidden="true" />
-                  En retard de {{ Math.abs(calcJoursRestants(evaluation.date_fin)) }} jours
+                  En retard de {{ evaluation.joursRestants }} jours
                 </span>
               </div>
               <button
