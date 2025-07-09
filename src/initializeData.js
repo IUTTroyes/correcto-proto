@@ -20,6 +20,9 @@ export async function initializeData() {
         // Vérifier si les évaluations sont en cours en fonction de la date actuelle et de la date de début
         await evalStore.updateStatusEvaluationsEnCours(1);
 
+        // Charger les enseignants
+        await userStore.getEnseignants();
+
         // Charger les grilles d'évaluation
         await grilleStore.getGrilles();
     }

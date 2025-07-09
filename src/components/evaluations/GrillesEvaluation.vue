@@ -1,17 +1,25 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
-import { useGrilleEvaluationStore } from '@/stores/grilleEvaluation';
-import {BarsArrowUpIcon, BarsArrowDownIcon, DocumentTextIcon, PlusIcon} from "@heroicons/vue/24/outline";
+import {ref, watch, onMounted} from 'vue';
+import {useGrilleEvaluationStore} from '@/stores/grilleEvaluation';
+import { useUserStore } from '@/stores/user';
+import {BarsArrowDownIcon, BarsArrowUpIcon, DocumentTextIcon, PlusIcon} from "@heroicons/vue/24/outline";
 
 const grilleStore = useGrilleEvaluationStore();
+const userStore = useUserStore();
 
 const selectedFilter = ref<'perso' | 'matieres' | 'all'>('perso');
-const selectedType = ref<'classique' | 'auto' | ''>('');
-const selectedAuteur = ref<'1' | '2' | ''>('');
+const selectedType = ref<'classique' | 'auto-evaluation' | ''>('');
+const selectedAuteur = ref<string>('');
 const grilles = ref(grilleStore.grilles);
+const enseignants = ref(userStore.enseignants);
 
 const sortKey = ref<string | null>(null);
 const sortOrder = ref<'asc' | 'desc' | null>(null);
+
+function getAuteurName(auteurId: number): string {
+  const auteur = enseignants.value.find(e => e.id === auteurId);
+  return auteur ? `${auteur.prenom} ${auteur.nom}` : 'Inconnu';
+}
 
 function toggleSort(key: string) {
   if (sortKey.value !== key) {
@@ -27,21 +35,75 @@ function toggleSort(key: string) {
   }
 }
 
-watch([sortKey, sortOrder], () => {
-  if (!sortKey.value || !sortOrder.value) {
-    grilles.value = grilleStore.grilles.slice();
-    return;
+// Function to apply filters and sorting
+function applyFiltersAndSort() {
+  // Start with all grilles
+  let filteredGrilles = grilleStore.grilles.slice();
+
+  // Apply filter by scope (perso, all)
+  if (selectedFilter.value === 'perso' && userStore.user) {
+    filteredGrilles = filteredGrilles.filter(grille =>
+        grille.auteur === userStore.user.id
+    );
   }
-  const sorted = [...grilles.value].sort((a, b) => {
-    let res = 0;
-    if (sortKey.value === 'name') {
-      res = a.name.localeCompare(b.name);
-    } else if (sortKey.value === 'date_modification') {
-      res = new Date(a.date_modification).getTime() - new Date(b.date_modification).getTime();
-    }
-    return sortOrder.value === 'asc' ? res : -res;
-  });
-  grilles.value = sorted;
+  // Note: 'all' doesn't need filtering as it shows all grilles
+
+  // Apply type filter
+  if (selectedType.value) {
+    filteredGrilles = filteredGrilles.filter(grille =>
+        grille.type === selectedType.value
+    );
+  }
+
+// Apply author filter
+  if (selectedAuteur.value !== '') {
+    // Convert selectedAuteur.value to a number for comparison
+    const selectedAuteurId = parseInt(selectedAuteur.value, 10);
+
+    filteredGrilles = filteredGrilles.filter(grille =>
+        grille.auteur === selectedAuteurId
+    );
+  }
+
+  // Apply sorting if needed
+  if (sortKey.value && sortOrder.value) {
+    filteredGrilles.sort((a, b) => {
+      let res = 0;
+      if (sortKey.value === 'name') {
+        res = a.name.localeCompare(b.name);
+      } else if (sortKey.value === 'date_modification') {
+        res = new Date(a.date_modification).getTime() - new Date(b.date_modification).getTime();
+      } else if (sortKey.value === 'auteur') {
+        // Find the authors in the enseignants array
+        const auteurA = enseignants.value.find(e => e.id === a.auteur);
+        const auteurB = enseignants.value.find(e => e.id === b.auteur);
+
+        // Compare author names (prenom + nom) - same order as in the dropdown
+        if (auteurA && auteurB) {
+          const fullNameA = `${auteurA.prenom} ${auteurA.nom}`;
+          const fullNameB = `${auteurB.prenom} ${auteurB.nom}`;
+          res = fullNameA.localeCompare(fullNameB);
+        } else if (auteurA) {
+          res = -1; // A has author, B doesn't
+        } else if (auteurB) {
+          res = 1;  // B has author, A doesn't
+        }
+      }
+      return sortOrder.value === 'asc' ? res : -res;
+    });
+  }
+
+  grilles.value = filteredGrilles;
+}
+
+// Watch for changes in filters and sorting
+watch([selectedFilter, selectedType, selectedAuteur, sortKey, sortOrder], () => {
+  applyFiltersAndSort();
+});
+
+// Initialize grilles when component is mounted
+onMounted(() => {
+  applyFiltersAndSort();
 });
 </script>
 
@@ -69,12 +131,11 @@ watch([sortKey, sortOrder], () => {
               <select id="filter" class="border border-gray-300 rounded-md p-1 w-1/2" v-model="selectedType">
                 <option value="">Tous types</option>
                 <option value="classique">Classique</option>
-                <option value="auto">Auto-evaluation</option>
+                <option value="auto-evaluation">Auto-evaluation</option>
               </select>
-              <select id="filter" v-model="selectedAuteur" class="border border-gray-300 rounded-md p-1 w-1/2">
+              <select v-if="selectedFilter === 'all'" id="filter" v-model="selectedAuteur" class="border border-gray-300 rounded-md p-1 w-1/2">
                 <option value="">Tous auteurs</option>
-                <option value="1">user1</option>
-                <option value="2">user2</option>
+                <option v-for="enseignant in enseignants" :value="enseignant.id">{{ enseignant.prenom }} {{ enseignant.nom }}</option>
               </select>
             </div>
           </div>
@@ -112,7 +173,15 @@ watch([sortKey, sortOrder], () => {
 
       <div v-else v-for="grille in grilles" class="p-1 w-full border-b border-gray-200 last:border-b-0 pb-4">
         <div class="flex md:flex-row flex-col justify-between md:items-center">
-          {{grille.name}}
+          <div>
+            <div class="font-medium">{{grille.name}}</div>
+            <div class="text-sm text-gray-500">
+              Auteur: {{ getAuteurName(grille.auteur) }}
+            </div>
+          </div>
+          <div class="text-sm text-gray-500">
+            {{ new Date(grille.date_modification).toLocaleDateString() }}
+          </div>
         </div>
       </div>
     </div>

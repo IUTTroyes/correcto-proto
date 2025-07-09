@@ -4,6 +4,7 @@ import {defineStore} from 'pinia'
 export const useUserStore = defineStore('user', () => {
   const user = ref(null)
   const isAuthenticated = computed(() => !!user.value)
+  const enseignants = ref([])
 
   async function getUsers() {
     try {
@@ -26,7 +27,7 @@ export const useUserStore = defineStore('user', () => {
 
       // Find the user with matching email and password
       const foundUser = users.find(userData =>
-        userData.mail === mail && userData.password === password
+          userData.mail === mail && userData.password === password
       )
 
       if (foundUser) {
@@ -90,6 +91,21 @@ export const useUserStore = defineStore('user', () => {
     return isAuth
   }
 
+  async function getEnseignants() {
+    try {
+      // Get the users data from the JSON file
+      const users = await getUsers()
+      if (!users) return []
+
+      // Filter users to get only enseignants
+      enseignants.value = users.filter(userData => userData.role === 'enseignant')
+      return enseignants.value
+    } catch (error) {
+      console.error('Error fetching enseignants data:', error)
+      return []
+    }
+  }
+
   return {
     user,
     isAuthenticated,
@@ -98,6 +114,8 @@ export const useUserStore = defineStore('user', () => {
     logout,
     setUser,
     clearUser,
-    checkAuth
+    checkAuth,
+    getEnseignants,
+    enseignants
   }
 })
