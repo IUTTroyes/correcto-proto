@@ -112,7 +112,11 @@ onMounted(() => {
     <div class="flex flex-col gap-4 bg-white rounded-lg border border-gray-200 p-4 w-full">
       <div class="flex justify-between items-center">
         <div class="font-bold text-xl">Grilles d'évaluation</div>
-        <button class="px-3 py-1 bg-red-400 text-white rounded-md text-sm hover:bg-red-500 transition-colors cursor-pointer flex items-center gap-1"><PlusIcon class="inline-block size-4" aria-hidden="true"/>Créer une grille</button>
+        <div class="flex gap-2">
+          <router-link to="/evaluations/grille/new" class="px-3 py-1 bg-red-400 text-white rounded-md text-sm hover:bg-red-500 transition-colors cursor-pointer flex items-center gap-1">
+            <PlusIcon class="inline-block size-4" aria-hidden="true"/>Créer une grille
+          </router-link>
+        </div>
       </div>
 
       <div class="flex flex-col gap-2 mt-4">

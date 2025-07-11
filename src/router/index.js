@@ -41,8 +41,20 @@ const router = createRouter({
       path: '/evaluations',
       name: 'evaluations',
       component: () => import('../views/EvaluationsView.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/evaluations/grille/new',
+      name: 'evaluationGrilleNew',
+      component: () => import('../views/forms/GrilleEvaluationForm.vue'),
       meta: { requiresAuth: true }
     },
+    {
+      path: '/evaluations/grille/new/:type',
+      name: 'evaluationGrilleNewWithType',
+      component: () => import('../views/forms/GrilleEvaluationForm.vue'),
+      meta: { requiresAuth: true }
+    }
   ],
 })
 
