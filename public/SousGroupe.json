@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "Groupe 1",
+    "effectif": 3,
+    "etudiants": [2, 4, 6]
+  },
+  {
+    "id": 2,
+    "name": "Groupe 2",
+    "effectif": 2,
+    "etudiants": [5, 6]
+  },
+  {
+    "id": 3,
+    "name": "Groupe 3",
+    "effectif": 4,
+    "etudiants": [3, 5, 7]
+  }
+]

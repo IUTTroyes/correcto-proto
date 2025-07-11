@@ -118,5 +118,29 @@
       {"niveau": "Bien", "points": 2.5, "description": "Bons rapports avec quelques informations manquantes"},
       {"niveau": "Excellent", "points": 3, "description": "Rapports complets, clairs et détaillés"}
     ]
+  },
+  {
+    "id": 11,
+    "name": "Assiduité",
+    "description": "Évaluation de l'assiduité au sein du groupe",
+    "points": 3,
+    "bareme": [
+      {"niveau": "Insuffisant", "points": 0, "description": "Aucun rapport ou rapports incompréhensibles"},
+      {"niveau": "Passable", "points": 1.5, "description": "Rapports basiques mais peu détaillés"},
+      {"niveau": "Bien", "points": 2.5, "description": "Bons rapports avec quelques informations manquantes"},
+      {"niveau": "Excellent", "points": 3, "description": "Rapports complets, clairs et détaillés"}
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Engagement",
+    "description": "Évaluation de l'engagement et de la participation active dans le projet",
+    "points": 3,
+    "bareme": [
+      {"niveau": "Insuffisant", "points": 0, "description": "Aucun rapport ou rapports incompréhensibles"},
+      {"niveau": "Passable", "points": 1.5, "description": "Rapports basiques mais peu détaillés"},
+      {"niveau": "Bien", "points": 2.5, "description": "Bons rapports avec quelques informations manquantes"},
+      {"niveau": "Excellent", "points": 3, "description": "Rapports complets, clairs et détaillés"}
+    ]
   }
 ]

@@ -1,11 +1,13 @@
 import { useEvalStore } from './stores/evaluation'
 import { useUserStore } from './stores/user'
 import { useGrilleEvaluationStore} from "@/stores/grilleEvaluation.js";
+import { useCritereStore } from "@/stores/critere.js";
 
 export async function initializeData() {
     const evalStore = useEvalStore()
     const userStore = useUserStore()
     const grilleStore = useGrilleEvaluationStore()
+    const critereStore = useCritereStore()
 
     // Récupérer l'utilisateur connecté depuis le userStore
     const isAuthenticated = await userStore.checkAuth()
@@ -25,5 +27,8 @@ export async function initializeData() {
 
         // Charger les grilles d'évaluation
         await grilleStore.getGrilles();
+
+        // Charger les critères
+        await critereStore.getCriteres();
     }
 }
