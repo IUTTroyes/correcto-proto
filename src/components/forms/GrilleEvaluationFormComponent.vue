@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import {defineEmits, ref, computed} from 'vue';
 import { GrilleEvaluation } from "@/types/GrilleEvaluation";
-import {FolderIcon, PlusIcon, TrashIcon} from "@heroicons/vue/24/outline";
+import {FolderIcon, PlusIcon, TrashIcon, XMarkIcon} from "@heroicons/vue/24/outline";
 import {useCritereStore} from "@/stores/critere";
 
 const critereStore = useCritereStore();
 
 const criteres = ref(critereStore.criteres);
 const critereStep = ref(0);
+const critereForm = ref(false);
 
 const grille = ref<GrilleEvaluation>({
   name: '',
@@ -26,7 +27,10 @@ const paginatedCriteres = computed(() => {
   return criteres.value.slice(start, start + itemsPerPage);
 });
 
-const emit = defineEmits(['submit']);
+const emit = defineEmits<{
+  (e: 'submit', grille: GrilleEvaluation): void
+  (e: 'close'): void
+}>();
 
 function handleSubmit() {
   emit('submit', grille);
@@ -34,6 +38,10 @@ function handleSubmit() {
 
 function addCritere() {
   critereStep.value = 1;
+}
+
+function showCritereForm() {
+  critereForm.value = critereForm.value ? false : true;
 }
 </script>
 
@@ -119,7 +127,7 @@ function addCritere() {
 
     <div v-if="critereStep === 1">
       <div class="flex flex-col gap-4">
-        <button class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors hover:cursor-pointer flex justify-start items-center gap-1" @click="createCritere()">
+        <button class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors hover:cursor-pointer flex justify-start items-center gap-1" @click="showCritereForm()">
           <PlusIcon class="inline-block size-4" aria-hidden="true" />
           Nouveau critère
         </button>
@@ -154,6 +162,19 @@ function addCritere() {
               </button>
             </div>
           </div>
+      </div>
+      <div v-if="critereForm === true" class="fixed inset-0 w-full h-full flex items-center justify-center bg-gray-400/40">
+        <div class="bg-white border border-gray-200 rounded-md z-50 w-2/3 h-fit max-h-1/2 shadow-md mx-auto p-6">
+          <div class="flex justify-between items-center border-b border-gray-200 pb-4 mb-4">
+            <h2 class="text-lg">Nouveau critère</h2>
+            <button @click="showCritereForm()" class="text-gray-500 hover:text-gray-800">
+              <XMarkIcon class="inline-block size-6 hover:cursor-pointer" aria-hidden="true" />
+            </button>
+          </div>
+          <div>
+            hello
+          </div>
+        </div>
       </div>
     </div>
   </div>
