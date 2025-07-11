@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {defineEmits, ref, computed} from 'vue';
 import { GrilleEvaluation } from "@/types/GrilleEvaluation";
-import {FolderIcon, PlusIcon} from "@heroicons/vue/24/outline";
+import {FolderIcon, PlusIcon, TrashIcon} from "@heroicons/vue/24/outline";
 import {useCritereStore} from "@/stores/critere";
 
 const critereStore = useCritereStore();
@@ -75,10 +75,18 @@ function addCritere() {
       </div>
       <div v-if="grille.criteresDetails.length > 0" class="flex flex-col gap-2 w-full">
         <label class="font-medium">Critères de notation</label>
-        <div v-for="(critere, index) in grille.criteresDetails" :key="index" class="flex flex-col gap-2 p-2 border-b border-gray-200">
-          <div>{{ critere.name }}</div>
-          <div class="text-sm text-gray-600">{{ critere.description }}</div>
-          <div class="text-xs text-gray-500">Points : {{ critere.points }}</div>
+        <div v-for="(critere, index) in grille.criteresDetails" :key="index" class="flex items-center justify-between w-full p-2 border-b border-gray-200">
+          <div class="flex flex-col gap-2">
+            <div>{{ critere.name }}</div>
+            <div class="text-sm text-gray-600">{{ critere.description }}</div>
+            <div class="text-xs text-gray-500">Points : {{ critere.points }}</div>
+          </div>
+          <button
+              type="button"
+              class="text-red-600 hover:text-red-800 transition-colors hover:cursor-pointer"
+              @click="grille.criteresDetails.splice(index, 1)">
+            <TrashIcon class="inline-block size-4" aria-hidden="true" />
+          </button>
         </div>
       </div>
 
