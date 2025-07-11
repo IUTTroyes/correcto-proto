@@ -117,8 +117,14 @@ function addCritere() {
         </button>
         <div class="flex flex-col gap-2">
             <div class="text-sm font-medium mb-2">Critères disponibles :</div>
-            <button v-for="critere in paginatedCriteres" :key="critere.id" class="border border-gray-200 p-2 rounded-md hover:bg-gray-100 transition-colors hover:cursor-pointer text-left" @click="grille.criteresDetails.push(critere)">
-                {{ critere.name }}
+            <button
+              v-for="critere in paginatedCriteres"
+              :key="critere.id"
+              class="border border-gray-200 p-2 rounded-md hover:bg-gray-100 transition-colors hover:cursor-pointer text-left disabled:bg-gray-100 disabled:hover:cursor-auto"
+              :disabled="grille.criteresDetails.some(c => c.id === critere.id)"
+              @click="grille.criteresDetails.push(critere)"
+            >
+              {{ critere.name }}
             </button>
             <div class="flex justify-center items-center gap-2 mt-2">
               <button
