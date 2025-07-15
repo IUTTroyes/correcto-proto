@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {defineEmits, ref, computed} from 'vue';
 import { GrilleEvaluation } from "@/types/GrilleEvaluation";
+import CritereForm from "@/components/forms/CritereForm.vue";
 import {FolderIcon, PlusIcon, TrashIcon, XMarkIcon} from "@heroicons/vue/24/outline";
 import {useCritereStore} from "@/stores/critere";
 
@@ -41,7 +42,13 @@ function addCritere() {
 }
 
 function showCritereForm() {
-  critereForm.value = critereForm.value ? false : true;
+  critereForm.value = !critereForm.value;
+}
+
+function handleCritereSubmit(critere: { name: string; description: string; total_points: number }) {
+  grille.value.criteresDetails.push(critere);
+  critereStore.addCritere(critere);
+  critereForm.value = false;
 }
 </script>
 
@@ -172,7 +179,7 @@ function showCritereForm() {
             </button>
           </div>
           <div>
-            hello
+            <CritereForm @submit="handleCritereSubmit" />
           </div>
         </div>
       </div>

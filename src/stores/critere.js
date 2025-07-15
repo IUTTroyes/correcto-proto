@@ -39,8 +39,19 @@ export const useCritereStore = defineStore('critere', () => {
         }
     }
 
+    async function addCritere(newCritere) {
+        try {
+            // Simuler l'ajout d'un critère
+            criteres.value.push(newCritere)
+            console.log('Critère ajouté:', newCritere)
+        } catch (error) {
+            console.error('Error adding critere:', error)
+        }
+    }
+
     return {
         criteres,
-        getCriteres
+        getCriteres,
+        addCritere
     }
 })
