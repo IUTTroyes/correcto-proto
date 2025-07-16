@@ -34,8 +34,6 @@ export const useCritereStore = defineStore('critere', () => {
             criteres.value = criteresData
         } catch (error) {
             console.error('Error fetching critere data:', error)
-        } finally {
-            console.log(criteres.value)
         }
     }
 

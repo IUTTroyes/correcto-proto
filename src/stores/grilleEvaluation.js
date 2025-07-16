@@ -36,8 +36,6 @@ export const useGrilleEvaluationStore = defineStore('grille', () => {
             grilles.value = grillesData
         } catch (error) {
             console.error('Error fetching grille evaluation data:', error)
-        } finally {
-            console.log(grilles.value)
         }
     }
 

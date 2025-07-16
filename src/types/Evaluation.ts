@@ -8,13 +8,34 @@ export interface GroupeDetails {
   name: string;
 }
 
+export interface GrillesEvaluationDetails {
+  id: string;
+  name: string;
+  description?: string;
+  total_points: number;
+  date_creation: Date;
+  date_modification: Date;
+  criteres?: {
+    name: string;
+    description?: string;
+    points: number;
+    bareme: {};
+  }[];
+  auteur: number;
+}
+
 export interface Evaluation {
+  id: string;
   name: string;
   matiereDetails?: MatiereDetails;
   groupeDetails: GroupeDetails;
-  joursRestants?: number;
+  grilleDetails: GrillesEvaluationDetails[];
+  actif: boolean;
   status: number;
-  date_fin?: string;
-  date_debut?: string;
-  id: string;
+  date_debut?: Date;
+  date_fin?: Date;
+  date_creation?: Date;
+  date_modification?: Date;
+  auteur: number;
+  joursRestants?: number;
 }

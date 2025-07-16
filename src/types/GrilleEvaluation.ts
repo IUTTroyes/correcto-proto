@@ -27,4 +27,5 @@ export interface GrilleEvaluation {
   date_modification: Date;
   criteres?: CriteresDetails[];
   auteur: number;
+  type: number;
 }

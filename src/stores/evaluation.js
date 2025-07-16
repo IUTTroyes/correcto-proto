@@ -14,7 +14,9 @@ export const useEvalStore = defineStore('eval', () => {
     const responses = await Promise.all([
       fetch('/Evaluation.json'),
       fetch('/Matiere.json'),
-      fetch('/Groupe.json')
+      fetch('/Groupe.json'),
+      fetch('/GrilleEvaluation.json'),
+      fetch('/Critere.json')
     ])
     if (responses.some(response => !response.ok)) {
       console.error('Failed to fetch data', responses.map(r => r.statusText))
@@ -32,29 +34,45 @@ export const useEvalStore = defineStore('eval', () => {
     return diffDays; // Retourne un nombre négatif si la date de fin est dépassée
   };
 
-  function completeEvaluations(evaluationsData, matieresData, groupeData) {
+  async function completeEvaluations(evaluationsData, matieresData, groupeData, grilleData, critereData) {
     evaluationsData.forEach(evaluation => {
-      evaluation.matiereDetails = matieresData.find(m => m.id === evaluation.matiere) || null
-      evaluation.groupeDetails = groupeData.find(g => g.id === evaluation.groupe) || null
-      // ajouter le calcul des jours restants
+      console.log('evaluation:', evaluation);
+      evaluation.matiereDetails = matieresData.find(m => m.id === evaluation.matiere) || null;
+      evaluation.groupeDetails = groupeData.find(g => g.id === evaluation.groupe) || null;
+
+      // Associer les grilles d'évaluation
+      evaluation.grilleDetails = evaluation.grille_eval.map(grilleId =>
+          grilleData.find(g => g.id === grilleId)
+      ).filter(grille => grille !== null);
+
+      // Ajouter les données des grilles liées
+      evaluation.grilleDetails.forEach(grille => {
+        console.log('grille:', grille);
+        grille.criteres = grille.criteres.map(critereId =>
+            critereData.find(c => c.id === critereId)
+        ).filter(critere => critere !== null);
+      });
+
+      // Ajouter le calcul des jours restants
       if (evaluation.date_fin) {
         evaluation.joursRestants = calcJoursRestants(evaluation.date_fin);
       } else {
         evaluation.joursRestants = null;
       }
-    })
+    });
   }
 
   async function getEvaluations() {
     try {
       const data = await fetchData()
       if (!data) return []
-      const [evaluationsData, matieresData, groupeData] = data
-      completeEvaluations(evaluationsData, matieresData, groupeData)
+      const [evaluationsData, matieresData, groupeData, grilleData, critereData] = data
+      completeEvaluations(evaluationsData, matieresData, groupeData, grilleData, critereData)
       evaluations.value = evaluationsData
     } catch (error) {
       console.error('Error fetching evaluations data:', error)
     } finally {
+      console.log('Evaluations data fetched:', evaluations.value)
     }
   }
 
@@ -62,7 +80,7 @@ export const useEvalStore = defineStore('eval', () => {
     try {
       const data = await fetchData()
       if (!data) return []
-      const [evaluationsData, matieresData, groupeData] = data
+      const [evaluationsData, matieresData, groupeData, grilleData, critereData] = data
       const filteredEvaluations = evaluationsData.filter(filterFn)
       const ongoingEvaluations = onGoing
           ? filteredEvaluations.filter(evaluation => {
@@ -72,7 +90,7 @@ export const useEvalStore = defineStore('eval', () => {
             return startDate && endDate && startDate <= currentDate && endDate >= currentDate
           })
           : filteredEvaluations
-      completeEvaluations(ongoingEvaluations, matieresData, groupeData)
+      completeEvaluations(ongoingEvaluations, matieresData, groupeData, grilleData, critereData)
       return ongoingEvaluations
     } catch (error) {
       console.error('Error fetching data:', error)
@@ -92,8 +110,8 @@ export const useEvalStore = defineStore('eval', () => {
     try {
       const data = await fetchData()
       if (!data) return []
-      const [evaluationsData, matieresData, groupeData] = data
-      completeEvaluations(evaluationsData, matieresData, groupeData)
+      const [evaluationsData, matieresData, groupeData, grilleData, critereData] = data
+      completeEvaluations(evaluationsData, matieresData, groupeData, grilleData, critereData)
 
       const filteredEvaluations = evaluationsData.filter(evaluation => {
         const matiere = evaluation.matiereDetails

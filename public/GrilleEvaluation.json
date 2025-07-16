@@ -4,39 +4,54 @@
     "name": "Développement Web",
     "description": "Critères d'évaluation pour les projets de développement web",
     "criteres": [1, 2, 3, 4],
-    "total_points": 20,
+    "total_points": 0,
     "date_creation": "2023-09-01T10:00:00Z",
     "date_modification": "2023-09-10T14:30:00Z",
-    "auteur": 1
+    "auteur": 1,
+    "type": 1
   },
   {
     "id": 2,
     "name": "API REST",
     "description": "Critères d'évaluation pour les projets d'API REST",
     "criteres": [5, 6, 7],
-    "total_points": 15,
+    "total_points": 0,
     "date_creation": "2023-10-05T09:15:00Z",
     "date_modification": "2023-10-12T11:45:00Z",
-    "auteur": 1
+    "auteur": 1,
+    "type":  1
   },
   {
     "id": 3,
     "name": "Tests Automatisés",
     "description": "Critères d'évaluation pour les projets de tests automatisés",
     "criteres": [8, 9, 10],
-    "total_points": 10,
+    "total_points": 0,
     "date_creation": "2023-11-15T08:30:00Z",
     "date_modification": "2023-11-20T16:20:00Z",
-    "auteur": 3
+    "auteur": 3,
+    "type":  1
   },
   {
     "id": 4,
     "name": "Sécurité",
     "description": "Critères d'évaluation pour les projets de sécurité informatique",
     "criteres": [1, 2],
-    "total_points": 12,
+    "total_points": 0,
     "date_creation": "2023-12-01T10:00:00Z",
     "date_modification": "2023-12-05T14:30:00Z",
-    "auteur": 1
+    "auteur": 1,
+    "type":  1
+  },
+  {
+    "id": 5,
+    "name": "Assiduité et Collaboration",
+    "description": "Critères d'évaluation entre les membres du groupe de travail",
+    "criteres": [11, 12],
+    "total_points": 0,
+    "date_creation": "2023-12-01T10:00:00Z",
+    "date_modification": "2023-12-05T14:30:00Z",
+    "auteur": 1,
+    "type":  2
   }
 ]
