@@ -50,6 +50,10 @@ function handleCritereSubmit(critere: { name: string; description: string; total
   critereStore.addCritere(critere);
   critereForm.value = false;
 }
+
+const totalPoints = computed(() => {
+  return grille.value.criteresDetails.reduce((sum, critere) => sum + critere.points, 0);
+});
 </script>
 
 <template>
@@ -79,34 +83,34 @@ function handleCritereSubmit(critere: { name: string; description: string; total
       </div>
       <div class="flex flex-col gap-2 w-full">
         <label for="description" class="font-medium">Total de points</label>
-        <input
-            type="number"
+        <div
             id="totalPoints"
-            v-model.number="grille.total_points"
-            placeholder="Entrez le total de points de la grille"
-            required
-            class="p-2 border border-gray-200 rounded text-base"
-        />
+            class="p-2 border border-gray-200 rounded text-base bg-gray-100"
+        >
+          {{ totalPoints }}
+        </div>
       </div>
-      <div v-if="grille.criteresDetails.length > 0" class="flex flex-col gap-2 w-full">
-        <label class="font-medium">Critères de notation</label>
-        <div v-for="(critere, index) in grille.criteresDetails" :key="index" class="flex items-center justify-between w-full p-2 border-b border-gray-200">
-          <div class="flex flex-col gap-2">
-            <div>{{ critere.name }}</div>
-            <div class="text-sm text-gray-600">{{ critere.description }}</div>
-            <div class="text-xs text-gray-500">Coeff. : {{ critere.coeff }}</div>
-            <div class="flex justify-between">
-              <div v-for="(bareme, baremeIndex) in critere.bareme" :key="baremeIndex" class="text-xs text-gray-500">
-                {{bareme.niveau}} : {{bareme.points}}
+      <div v-if="grille.criteresDetails.length > 0" class="flex flex-col gap-2 w-full bg-gray-50 border border-gray-200 rounded p-4">
+        <label class="font-medium border-b pb-4">Critères de notation</label>
+        <div class="max-h-96 overflow-y-auto">
+          <div v-for="(critere, index) in grille.criteresDetails" :key="index" class="flex items-center justify-between w-full p-2 border-b border-gray-200">
+            <div class="flex flex-col gap-2 w-full">
+              <div>{{ critere.name }}</div>
+              <div class="text-sm text-gray-600">{{ critere.description }}</div>
+              <div class="text-xs text-gray-600">Points : {{ critere.points }}</div>
+              <div class="flex justify-start gap-4">
+                <div v-for="(bareme, baremeIndex) in critere.bareme" :key="baremeIndex" class="text-xs text-gray-500">
+                  {{bareme.niveau}} : {{bareme.points}}
+                </div>
               </div>
             </div>
+            <button
+                type="button"
+                class="text-red-600 hover:text-red-800 transition-colors hover:cursor-pointer"
+                @click="grille.criteresDetails.splice(index, 1)">
+              <TrashIcon class="inline-block size-4" aria-hidden="true" />
+            </button>
           </div>
-          <button
-              type="button"
-              class="text-red-600 hover:text-red-800 transition-colors hover:cursor-pointer"
-              @click="grille.criteresDetails.splice(index, 1)">
-            <TrashIcon class="inline-block size-4" aria-hidden="true" />
-          </button>
         </div>
       </div>
 

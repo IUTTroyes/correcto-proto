@@ -1,7 +1,7 @@
 export interface CriteresDetails {
   name: string;
   description?: string;
-  coeff: number;
+  points: number;
   bareme: {};
 }
 

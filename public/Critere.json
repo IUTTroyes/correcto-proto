@@ -3,7 +3,7 @@
     "id": 1,
     "name": "Qualité du code",
     "description": "Évaluation de la lisibilité, de la structure et de la propreté du code",
-    "coeff": 5,
+    "points": 5,
     "bareme": [
       {"niveau": "Insuffisant", "points": 0, "description": "Code illisible, non structuré"},
       {"niveau": "Passable", "points": 2, "description": "Code lisible mais peu structuré"},
@@ -15,7 +15,7 @@
     "id": 2,
     "name": "Fonctionnalités implémentées",
     "description": "Évaluation des fonctionnalités demandées et correctement implémentées",
-    "coeff": 6,
+    "points": 6,
     "bareme": [
       {"niveau": "Insuffisant", "points": 0, "description": "Fonctionnalités absentes ou non fonctionnelles"},
       {"niveau": "Passable", "points": 3, "description": "Fonctionnalités de base implémentées"},
@@ -27,7 +27,7 @@
     "id": 3,
     "name": "Interface utilisateur",
     "description": "Évaluation de l'ergonomie et de l'esthétique de l'interface",
-    "coeff": 4,
+    "points": 4,
     "bareme": [
       {"niveau": "Insuffisant", "points": 0, "description": "Interface non fonctionnelle ou très peu ergonomique"},
       {"niveau": "Passable", "points": 2, "description": "Interface fonctionnelle mais peu intuitive"},
@@ -39,7 +39,7 @@
     "id": 4,
     "name": "Documentation",
     "description": "Évaluation de la qualité et de la complétude de la documentation",
-    "coeff": 5,
+    "points": 5,
     "bareme": [
       {"niveau": "Insuffisant", "points": 0, "description": "Documentation absente ou très incomplète"},
       {"niveau": "Passable", "points": 2.5, "description": "Documentation présente mais insuffisante"},
@@ -51,7 +51,7 @@
     "id": 5,
     "name": "Architecture API",
     "description": "Évaluation de la conception et de l'architecture de l'API",
-    "coeff": 5,
+    "points": 5,
     "bareme": [
       {"niveau": "Insuffisant", "points": 0, "description": "Architecture inexistante ou très mal conçue"},
       {"niveau": "Passable", "points": 2.5, "description": "Architecture basique mais fonctionnelle"},
@@ -63,7 +63,7 @@
     "id": 6,
     "name": "Sécurité",
     "description": "Évaluation des mesures de sécurité implémentées",
-    "coeff": 6,
+    "points": 6,
     "bareme": [
       {"niveau": "Insuffisant", "points": 0, "description": "Aucune mesure de sécurité"},
       {"niveau": "Passable", "points": 3, "description": "Mesures de sécurité basiques"},
@@ -75,7 +75,7 @@
     "id": 7,
     "name": "Performance",
     "description": "Évaluation des performances et de l'optimisation de l'API",
-    "coeff": 4,
+    "points": 4,
     "bareme": [
       {"niveau": "Insuffisant", "points": 0, "description": "Performances très faibles, API lente"},
       {"niveau": "Passable", "points": 2, "description": "Performances acceptables mais non optimisées"},
@@ -87,7 +87,7 @@
     "id": 8,
     "name": "Couverture des tests",
     "description": "Évaluation de la couverture et de la qualité des tests",
-    "coeff": 4,
+    "points": 4,
     "bareme": [
       {"niveau": "Insuffisant", "points": 0, "description": "Aucun test ou couverture très faible"},
       {"niveau": "Passable", "points": 2, "description": "Tests basiques avec couverture limitée"},
@@ -99,7 +99,7 @@
     "id": 9,
     "name": "Automatisation",
     "description": "Évaluation de l'automatisation des tests et du déploiement",
-    "coeff": 3,
+    "points": 3,
     "bareme": [
       {"niveau": "Insuffisant", "points": 0, "description": "Aucune automatisation"},
       {"niveau": "Passable", "points": 1.5, "description": "Automatisation basique et limitée"},
@@ -111,7 +111,7 @@
     "id": 10,
     "name": "Rapport de tests",
     "description": "Évaluation de la qualité et de la clarté des rapports de tests",
-    "coeff": 3,
+    "points": 3,
     "bareme": [
       {"niveau": "Insuffisant", "points": 0, "description": "Aucun rapport ou rapports incompréhensibles"},
       {"niveau": "Passable", "points": 1.5, "description": "Rapports basiques mais peu détaillés"},
@@ -123,7 +123,7 @@
     "id": 11,
     "name": "Assiduité",
     "description": "Évaluation de l'assiduité au sein du groupe",
-    "coeff": 3,
+    "points": 3,
     "bareme": [
       {"niveau": "Insuffisant", "points": 0, "description": "Aucun rapport ou rapports incompréhensibles"},
       {"niveau": "Passable", "points": 1.5, "description": "Rapports basiques mais peu détaillés"},
@@ -135,7 +135,7 @@
     "id": 12,
     "name": "Engagement",
     "description": "Évaluation de l'engagement et de la participation active dans le projet",
-    "coeff": 3,
+    "points": 3,
     "bareme": [
       {"niveau": "Insuffisant", "points": 0, "description": "Aucun rapport ou rapports incompréhensibles"},
       {"niveau": "Passable", "points": 1.5, "description": "Rapports basiques mais peu détaillés"},

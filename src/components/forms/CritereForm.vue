@@ -69,7 +69,7 @@ function addBaremeItem() {
           Ajouter un élément
         </button>
       </div>
-      <div v-for="(bareme, index) in critere.bareme" :key="index">
+      <div v-for="(bareme, index) in critere.bareme" :key="index" class="border-b border-gray-200 p-4">
         <div class="flex items-center gap-4">
           <div class="flex flex-col gap-2 w-full">
             <label for="points" class="font-medium">Niveau</label>
