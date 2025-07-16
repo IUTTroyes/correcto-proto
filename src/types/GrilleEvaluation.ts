@@ -1,5 +1,8 @@
 export interface CriteresDetails {
   name: string;
+  description?: string;
+  coeff: number;
+  bareme: {};
 }
 
 export interface EtudiantDetails {

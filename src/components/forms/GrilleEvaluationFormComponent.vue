@@ -94,7 +94,12 @@ function handleCritereSubmit(critere: { name: string; description: string; total
           <div class="flex flex-col gap-2">
             <div>{{ critere.name }}</div>
             <div class="text-sm text-gray-600">{{ critere.description }}</div>
-            <div class="text-xs text-gray-500">Points : {{ critere.points }}</div>
+            <div class="text-xs text-gray-500">Coeff. : {{ critere.coeff }}</div>
+            <div class="flex justify-between">
+              <div v-for="(bareme, baremeIndex) in critere.bareme" :key="baremeIndex" class="text-xs text-gray-500">
+                {{bareme.niveau}} : {{bareme.points}}
+              </div>
+            </div>
           </div>
           <button
               type="button"

@@ -6,7 +6,7 @@ import {PlusIcon, TrashIcon} from "@heroicons/vue/24/outline";
 const critere = ref<Critere>({
   name: '',
   description: '',
-  points: 0,
+  coeff: 0,
   bareme: []
 });
 
