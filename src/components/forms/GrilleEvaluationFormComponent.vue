@@ -89,6 +89,9 @@ const totalPoints = computed(() => {
         >
           {{ totalPoints }}
         </div>
+        <div class="text-xs text-gray-500">
+          Cette valeur est calculée automatiquement en fonction des critères ajoutés.
+        </div>
       </div>
       <div v-if="grille.criteresDetails.length > 0" class="flex flex-col gap-2 w-full bg-gray-50 border border-gray-200 rounded p-4">
         <label class="font-medium border-b pb-4">Critères de notation</label>

@@ -10,12 +10,20 @@ const critere = ref<Critere>({
   bareme: []
 });
 
+const errorMessage = ref('');
+
 const emit = defineEmits<{
   (e: 'submit', critere: Critere): void
 }>();
 
 function handleSubmit() {
-  emit('submit', critere.value); // Émet l'objet `critere.value` correctement typé
+  const hasInvalidBareme = critere.value.bareme.some(item => item.points > critere.value.points);
+  if (hasInvalidBareme) {
+    errorMessage.value = `Aucun élément du barème ne peut avoir une valeur de points supérieure à celle du critère (${critere.value.points}).`;
+    return;
+  }
+  errorMessage.value = '';
+  emit('submit', critere.value);
 }
 
 function addBaremeItem() {
@@ -60,6 +68,9 @@ function addBaremeItem() {
           required
           class="p-2 border border-gray-200 rounded text-base"
       />
+      <div class="text-xs text-gray-500">
+        Saisir le nombre de points maximum que ce critère peut rapporter.
+      </div>
     </div>
     <div class="flex flex-col gap-2 w-full p-6 bg-gray-50 border border-gray-200 rounded max-h-96 overflow-y-auto">
       <div class="flex justify-between items-center">
@@ -114,6 +125,9 @@ function addBaremeItem() {
       </div>
     </div>
 
+    <div v-if="errorMessage" class="text-red-600 text-sm">
+      {{ errorMessage }}
+    </div>
     <div class="flex justify-end w-full gap-2">
       <router-link to="/evaluations" class="px-4 py-2 bg-gray-200 text-gray-600 rounded-md hover:bg-gray-300 transition-colors hover:cursor-pointer">
         Annuler
