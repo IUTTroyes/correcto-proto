@@ -36,7 +36,7 @@ export const useEvalStore = defineStore('eval', () => {
 
   async function completeEvaluations(evaluationsData, matieresData, groupeData, grilleData, critereData) {
     evaluationsData.forEach(evaluation => {
-      console.log('evaluation:', evaluation);
+      // console.log('evaluation:', evaluation);
       evaluation.matiereDetails = matieresData.find(m => m.id === evaluation.matiere) || null;
       evaluation.groupeDetails = groupeData.find(g => g.id === evaluation.groupe) || null;
 
@@ -47,7 +47,7 @@ export const useEvalStore = defineStore('eval', () => {
 
       // Ajouter les données des grilles liées
       evaluation.grilleDetails.forEach(grille => {
-        console.log('grille:', grille);
+        // console.log('grille:', grille);
         grille.criteres = grille.criteres.map(critereId =>
             critereData.find(c => c.id === critereId)
         ).filter(critere => critere !== null);
@@ -72,7 +72,7 @@ export const useEvalStore = defineStore('eval', () => {
     } catch (error) {
       console.error('Error fetching evaluations data:', error)
     } finally {
-      console.log('Evaluations data fetched:', evaluations.value)
+      // console.log('Evaluations data fetched:', evaluations.value)
     }
   }
 
