@@ -171,7 +171,7 @@ function handleCritereSubmit(critere: { name: string; description: string; total
           </div>
       </div>
       <div v-if="critereForm === true" class="fixed inset-0 w-full h-full flex items-center justify-center bg-gray-400/40">
-        <div class="bg-white border border-gray-200 rounded-md z-50 w-2/3 h-fit max-h-1/2 shadow-md mx-auto p-6">
+        <div class="bg-white border border-gray-200 rounded-md z-50 w-2/3 max-h-full shadow-md mx-auto p-6">
           <div class="flex justify-between items-center border-b border-gray-200 pb-4 mb-4">
             <h2 class="text-lg">Nouveau critère</h2>
             <button @click="showCritereForm()" class="text-gray-500 hover:text-gray-800">

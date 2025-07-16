@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {defineEmits, ref} from 'vue';
 import {Critere} from "@/types/Critere";
-import {PlusIcon} from "@heroicons/vue/24/outline";
+import {PlusIcon, TrashIcon} from "@heroicons/vue/24/outline";
 
 const critere = ref<Critere>({
   name: '',
@@ -61,7 +61,7 @@ function addBaremeItem() {
           class="p-2 border border-gray-200 rounded text-base"
       />
     </div>
-    <div class="flex flex-col gap-2 w-full p-6 bg-gray-50 border border-gray-200 rounded">
+    <div class="flex flex-col gap-2 w-full p-6 bg-gray-50 border border-gray-200 rounded max-h-96 overflow-y-auto">
       <div class="flex justify-between items-center">
         <div class="text-lg font-medium">Barème</div>
         <button type="button" @click="addBaremeItem()" class="px-3 py-1 bg-red-400 text-white rounded-md text-sm hover:bg-red-500 transition-colors cursor-pointer w-fit">
@@ -69,8 +69,48 @@ function addBaremeItem() {
           Ajouter un élément
         </button>
       </div>
-      <div v-for="bareme in critere.bareme" :key="bareme.name">
-        <!-- Affichage des éléments du barème -->
+      <div v-for="(bareme, index) in critere.bareme" :key="index">
+        <div class="flex items-center gap-4">
+          <div class="flex flex-col gap-2 w-full">
+            <label for="points" class="font-medium">Niveau</label>
+            <input
+                type="text"
+                id="niveau"
+                v-model.number="bareme.niveau"
+                placeholder="Ex. : Insuffisant"
+                required
+                class="p-2 border border-gray-200 rounded text-base bg-white"
+            />
+          </div>
+          <div class="flex flex-col gap-2 w-full">
+            <label for="points" class="font-medium">Description</label>
+            <input
+                type="text"
+                id="points"
+                v-model.number="bareme.description"
+                placeholder="Ex. : Documentation absente ou très incomplète"
+                required
+                class="p-2 border border-gray-200 rounded text-base bg-white"
+            />
+          </div>
+          <div class="flex flex-col gap-2 w-full">
+            <label for="points" class="font-medium">Points</label>
+            <input
+                type="number"
+                id="points"
+                v-model.number="bareme.points"
+                placeholder="Entrez le nombre de points du critère"
+                required
+                class="p-2 border border-gray-200 rounded text-base bg-white"
+            />
+          </div>
+          <button
+              type="button"
+              class="text-red-600 hover:text-red-800 transition-colors hover:cursor-pointer"
+              @click="critere.bareme.splice(index, 1)">
+            <TrashIcon class="inline-block size-4" aria-hidden="true" />
+          </button>
+        </div>
       </div>
     </div>
 

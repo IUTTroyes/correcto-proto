@@ -22,8 +22,6 @@ export interface GrilleEvaluation {
   total_points: number;
   date_creation: string;
   date_modification: string;
-  type: string;
-  criteresDetails?: CriteresDetails[];
-  etudiantDetails: EtudiantDetails;
-  enseignantDetails: EnseignantDetails;
+  criteres?: CriteresDetails[];
+  auteur?: EnseignantDetails[];
 }
