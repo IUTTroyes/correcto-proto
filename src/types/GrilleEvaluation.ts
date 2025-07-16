@@ -13,18 +13,18 @@ export interface EtudiantDetails {
 }
 
 export interface EnseignantDetails {
+  id: number;
   prenom: string;
   nom: string;
-  email: string;
-  id: string;
+  mail: string;
 }
 
 export interface GrilleEvaluation {
   name: string;
   description?: string;
   total_points: number;
-  date_creation: string;
-  date_modification: string;
+  date_creation: Date;
+  date_modification: Date;
   criteres?: CriteresDetails[];
-  auteur?: EnseignantDetails[];
+  auteur: number;
 }

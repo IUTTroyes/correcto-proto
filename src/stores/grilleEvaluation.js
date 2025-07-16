@@ -41,8 +41,19 @@ export const useGrilleEvaluationStore = defineStore('grille', () => {
         }
     }
 
+    async function addGrille(newGrille) {
+        try {
+            // Simuler l'ajout d'une grille
+            grilles.value.push(newGrille)
+            console.log('Grille ajoutée:', newGrille)
+        } catch (error) {
+            console.error('Error adding grille:', error)
+        }
+    }
+
     return {
         grilles,
-        getGrilles
+        getGrilles,
+        addGrille
     }
 })

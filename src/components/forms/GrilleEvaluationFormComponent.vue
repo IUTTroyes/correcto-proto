@@ -4,8 +4,12 @@ import { GrilleEvaluation } from "@/types/GrilleEvaluation";
 import CritereForm from "@/components/forms/CritereForm.vue";
 import {FolderIcon, PlusIcon, TrashIcon, XMarkIcon} from "@heroicons/vue/24/outline";
 import {useCritereStore} from "@/stores/critere";
+import {Critere} from "@/types/Critere";
+import { useGrilleEvaluationStore } from '@/stores/grilleEvaluation';
+import { useUserStore } from '@/stores/user';
 
 const critereStore = useCritereStore();
+const grilleEvaluationStore = useGrilleEvaluationStore();
 
 const criteres = ref(critereStore.criteres);
 const critereStep = ref(0);
@@ -15,13 +19,20 @@ const grille = ref<GrilleEvaluation>({
   name: '',
   description: '',
   total_points: 0,
-  criteresDetails: [],
+  date_creation: new Date(),
+  date_modification: new Date(),
+  auteur: [],
+  criteres: [],
 })
+
+const errorMessage = ref('');
 
 const itemsPerPage = 4;
 const currentPage = ref(1);
 
 const totalPages = computed(() => Math.ceil(criteres.value.length / itemsPerPage));
+
+const userStore = useUserStore();
 
 const paginatedCriteres = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage;
@@ -33,8 +44,22 @@ const emit = defineEmits<{
   (e: 'close'): void
 }>();
 
-function handleSubmit() {
-  emit('submit', grille);
+function handleSubmit(grille: GrilleEvaluation) {
+  if (userStore.user) {
+    grille.auteur = userStore.user.id
+  } else {
+    grille.auteur = 0;
+  }
+
+  if (grille.criteres.length === 0) {
+    errorMessage.value = 'Veuillez ajouter au moins un critère à la grille.';
+    return;
+  } else if (grille.name.trim() === '' || grille.description?.trim() === '') {
+    errorMessage.value = 'Veuillez remplir tous les champs requis.';
+    return;
+  } else {
+    grilleEvaluationStore.addGrille(grille);
+  }
 }
 
 function addCritere() {
@@ -45,21 +70,21 @@ function showCritereForm() {
   critereForm.value = !critereForm.value;
 }
 
-function handleCritereSubmit(critere: { name: string; description: string; total_points: number }) {
+function handleCritereSubmit(critere: Critere) {
   grille.value.criteresDetails.push(critere);
   critereStore.addCritere(critere);
   critereForm.value = false;
 }
 
 const totalPoints = computed(() => {
-  return grille.value.criteresDetails.reduce((sum, critere) => sum + critere.points, 0);
+  return grille.value.criteres.reduce((sum, critere) => sum + critere.points, 0);
 });
 </script>
 
 <template>
   <div class="flex flex-col gap-4 bg-white rounded-lg border border-gray-200 p-4 w-2/3">
     <!--    <div class="text-lg font-bold mb-4">Informations de base</div>-->
-    <form @submit.prevent="handleSubmit" class="flex flex-col gap-4">
+    <form @submit.prevent="handleSubmit(grille)" class="flex flex-col gap-4">
       <div class="flex flex-col gap-2 w-full">
         <label for="name" class="font-medium">Nom de la grille</label>
         <input
@@ -93,10 +118,10 @@ const totalPoints = computed(() => {
           Cette valeur est calculée automatiquement en fonction des critères ajoutés.
         </div>
       </div>
-      <div v-if="grille.criteresDetails.length > 0" class="flex flex-col gap-2 w-full bg-gray-50 border border-gray-200 rounded p-4">
+      <div v-if="grille.criteres.length > 0" class="flex flex-col gap-2 w-full bg-gray-50 border border-gray-200 rounded p-4">
         <label class="font-medium border-b pb-4">Critères de notation</label>
         <div class="max-h-96 overflow-y-auto">
-          <div v-for="(critere, index) in grille.criteresDetails" :key="index" class="flex items-center justify-between w-full p-2 border-b border-gray-200">
+          <div v-for="(critere, index) in grille.criteres" :key="index" class="flex items-center justify-between w-full p-2 border-b border-gray-200">
             <div class="flex flex-col gap-2 w-full">
               <div>{{ critere.name }}</div>
               <div class="text-sm text-gray-600">{{ critere.description }}</div>
@@ -110,13 +135,16 @@ const totalPoints = computed(() => {
             <button
                 type="button"
                 class="text-red-600 hover:text-red-800 transition-colors hover:cursor-pointer"
-                @click="grille.criteresDetails.splice(index, 1)">
+                @click="grille.criteres.splice(index, 1)">
               <TrashIcon class="inline-block size-4" aria-hidden="true" />
             </button>
           </div>
         </div>
       </div>
 
+      <div v-if="errorMessage" class="text-red-600 text-sm">
+        {{ errorMessage }}
+      </div>
       <div class="flex justify-end w-full gap-2">
         <router-link to="/evaluations" class="px-4 py-2 bg-gray-200 text-gray-600 rounded-md hover:bg-gray-300 transition-colors hover:cursor-pointer">
           Annuler
@@ -133,7 +161,7 @@ const totalPoints = computed(() => {
     <div class="text-lg font-bold mb-4">Gestion des critères</div>
 
     <!--  Si il n'y a pas de critères dans la grille  -->
-    <div v-if="grille.criteresDetails.length === 0 && critereStep === 0" class="flex flex-col gap-2 justify-center items-center">
+    <div v-if="grille.criteres.length === 0 && critereStep === 0" class="flex flex-col gap-2 justify-center items-center">
       <FolderIcon class="w-14 h-14 mx-auto text-gray-400" />
       <div class="flex flex-col items-center">
         <p class="text-sm m-0 p-0">Aucun critère pour cette grille.</p>
@@ -156,8 +184,8 @@ const totalPoints = computed(() => {
               v-for="critere in paginatedCriteres"
               :key="critere.id"
               class="border border-gray-200 p-2 rounded-md hover:bg-gray-100 transition-colors hover:cursor-pointer text-left disabled:bg-gray-100 disabled:hover:cursor-auto"
-              :disabled="grille.criteresDetails.some(c => c.id === critere.id)"
-              @click="grille.criteresDetails.push(critere)"
+              :disabled="grille.criteres.some(c => c.id === critere.id)"
+              @click="grille.criteres.push(critere)"
             >
               {{ critere.name }}
             </button>
