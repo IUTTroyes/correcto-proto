@@ -52,6 +52,7 @@ const evaluations = computed(() => {
 
 const openModal = (evaluation: Evaluation) => {
   selectedEvaluation.value = evaluation;
+  console.log(selectedEvaluation.value);
   isModalOpen.value = true;
 };
 
@@ -100,22 +101,22 @@ watch(isModalOpen, (newValue) => {
             <div class="flex flex-col gap-1">
               <div class="flex items-center gap-4">
                 <div>{{evaluation.name}}</div>
-                <div v-if="evaluation.status === 0" class="bg-amber-100 text-amber-600 font-bold rounded-xl p-1 px-2 text-xs">
+                <div v-if="evaluation.status === 0" class="bg-amber-100 text-amber-600 font-bold rounded-md p-1 px-2 text-xs">
                   <div>
                     En attente
                   </div>
                 </div>
-                <div v-else-if="evaluation.status === 1" class="bg-blue-100 text-blue-600 font-bold rounded-xl p-1 px-2 text-xs">
+                <div v-else-if="evaluation.status === 1" class="bg-blue-100 text-blue-600 font-bold rounded-md p-1 px-2 text-xs">
                   <div>
                     En cours
                   </div>
                 </div>
-                <div v-else-if="evaluation.status === 2" class="bg-green-100 text-green-600 font-bold rounded-xl p-1 px-2 text-xs">
+                <div v-else-if="evaluation.status === 2" class="bg-green-100 text-green-600 font-bold rounded-md p-1 px-2 text-xs">
                   <div>
                     Cloturée
                   </div>
                 </div>
-                <div v-else-if="evaluation.status === 3" class="bg-red-100 text-red-600 font-bold rounded-xl p-1 px-2 text-xs">
+                <div v-else-if="evaluation.status === 3" class="bg-red-100 text-red-600 font-bold rounded-md p-1 px-2 text-xs">
                   <div>
                     Annulée
                   </div>
@@ -123,7 +124,7 @@ watch(isModalOpen, (newValue) => {
               </div>
               <div>
                 <div class="text-sm opacity-60">
-                  <span>{{evaluation.matiereDetails?.name}}</span> | <span>{{evaluation.groupeDetails?.semestre}} - {{evaluation.groupeDetails?.type}} {{evaluation.groupeDetails?.name}}</span>
+                  <span>{{evaluation.matiereDetails?.name}}</span> | <span>{{evaluation.groupeDetails?.semestre}} - {{evaluation.groupeDetails?.type}} {{evaluation.groupeDetails?.name}}</span> | <span>Auteur : {{evaluation.auteurDetails.prenom}} {{evaluation.auteurDetails.nom}}</span>
                 </div>
                 <div>
                 <span v-if="evaluation.date_debut" class="text-xs text-gray-500">

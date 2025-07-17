@@ -24,9 +24,17 @@ export interface GrillesEvaluationDetails {
   auteur: number;
 }
 
+export interface AuteurDetails {
+  id: number;
+  prenom: string;
+  nom: string;
+  mail: string;
+}
+
 export interface Evaluation {
   id: string;
   name: string;
+  ressources: [];
   matiereDetails?: MatiereDetails;
   groupeDetails: GroupeDetails;
   grilleDetails: GrillesEvaluationDetails[];
@@ -37,5 +45,6 @@ export interface Evaluation {
   date_creation?: Date;
   date_modification?: Date;
   auteur: number;
+    auteurDetails?: AuteurDetails;
   joursRestants?: number;
 }

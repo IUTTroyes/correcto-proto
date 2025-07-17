@@ -16,7 +16,8 @@ export const useEvalStore = defineStore('eval', () => {
       fetch('/Matiere.json'),
       fetch('/Groupe.json'),
       fetch('/GrilleEvaluation.json'),
-      fetch('/Critere.json')
+      fetch('/Critere.json'),
+      fetch('/User.json')
     ])
     if (responses.some(response => !response.ok)) {
       console.error('Failed to fetch data', responses.map(r => r.statusText))
@@ -34,11 +35,12 @@ export const useEvalStore = defineStore('eval', () => {
     return diffDays; // Retourne un nombre négatif si la date de fin est dépassée
   };
 
-  async function completeEvaluations(evaluationsData, matieresData, groupeData, grilleData, critereData) {
+  async function completeEvaluations(evaluationsData, matieresData, groupeData, grilleData, critereData, auteurData) {
     evaluationsData.forEach(evaluation => {
       // console.log('evaluation:', evaluation);
       evaluation.matiereDetails = matieresData.find(m => m.id === evaluation.matiere) || null;
       evaluation.groupeDetails = groupeData.find(g => g.id === evaluation.groupe) || null;
+      evaluation.auteurDetails = auteurData.find(u => u.id === evaluation.auteur) || null;
 
       // Associer les grilles d'évaluation
       evaluation.grilleDetails = evaluation.grille_eval.map(grilleId =>
@@ -66,8 +68,8 @@ export const useEvalStore = defineStore('eval', () => {
     try {
       const data = await fetchData()
       if (!data) return []
-      const [evaluationsData, matieresData, groupeData, grilleData, critereData] = data
-      completeEvaluations(evaluationsData, matieresData, groupeData, grilleData, critereData)
+      const [evaluationsData, matieresData, groupeData, grilleData, critereData, auteurData] = data
+      completeEvaluations(evaluationsData, matieresData, groupeData, grilleData, critereData, auteurData)
       evaluations.value = evaluationsData
     } catch (error) {
       console.error('Error fetching evaluations data:', error)
@@ -80,7 +82,7 @@ export const useEvalStore = defineStore('eval', () => {
     try {
       const data = await fetchData()
       if (!data) return []
-      const [evaluationsData, matieresData, groupeData, grilleData, critereData] = data
+      const [evaluationsData, matieresData, groupeData, grilleData, critereData, auteurData] = data
       const filteredEvaluations = evaluationsData.filter(filterFn)
       const ongoingEvaluations = onGoing
           ? filteredEvaluations.filter(evaluation => {
@@ -90,7 +92,7 @@ export const useEvalStore = defineStore('eval', () => {
             return startDate && endDate && startDate <= currentDate && endDate >= currentDate
           })
           : filteredEvaluations
-      completeEvaluations(ongoingEvaluations, matieresData, groupeData, grilleData, critereData)
+      completeEvaluations(ongoingEvaluations, matieresData, groupeData, grilleData, critereData, auteurData)
       return ongoingEvaluations
     } catch (error) {
       console.error('Error fetching data:', error)
@@ -110,8 +112,8 @@ export const useEvalStore = defineStore('eval', () => {
     try {
       const data = await fetchData()
       if (!data) return []
-      const [evaluationsData, matieresData, groupeData, grilleData, critereData] = data
-      completeEvaluations(evaluationsData, matieresData, groupeData, grilleData, critereData)
+      const [evaluationsData, matieresData, groupeData, grilleData, critereData, auteurData] = data
+      completeEvaluations(evaluationsData, matieresData, groupeData, grilleData, critereData, auteurData)
 
       const filteredEvaluations = evaluationsData.filter(evaluation => {
         const matiere = evaluation.matiereDetails
