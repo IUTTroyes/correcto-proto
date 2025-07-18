@@ -22,17 +22,24 @@ export const useGrilleEvaluationStore = defineStore('grille', () => {
         return Promise.all(responses.map(r => r.json()))
     }
 
+    async function completeGrilles(grillesData, criteresData, auteurData) {
+        grillesData.forEach(grille => {
+            // Associer les critères à chaque grille
+            grille.criteres = grille.criteres.map(critereId =>
+                criteresData.find(critere => critere.id === critereId)
+            ).filter(critere => critere !== null)
+
+            // Associer les auteurs à chaque grille
+            grille.auteurDetails = auteurData.find(auteur => auteur.id === grille.auteur) || null
+        })
+    }
+
     async function getGrilles() {
         try {
             const data = await fetchData()
             if (!data) return []
-            const [grillesData, criteresData] = data
-
-            // Associer les critères à chaque grille
-            grillesData.forEach(grille => {
-                grille.criteres = criteresData.filter(critere => critere.grille === grille.id)
-            })
-
+            const [grillesData, criteresData, auteurData] = data
+            completeGrilles(grillesData, criteresData, auteurData)
             grilles.value = grillesData
         } catch (error) {
             console.error('Error fetching grille evaluation data:', error)

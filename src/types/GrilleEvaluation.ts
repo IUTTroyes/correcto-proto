@@ -1,3 +1,5 @@
+import {AuteurDetails} from "@/types/Evaluation";
+
 export interface CriteresDetails {
   name: string;
   description?: string;
@@ -5,14 +7,7 @@ export interface CriteresDetails {
   bareme: {};
 }
 
-export interface EtudiantDetails {
-  prenom: string;
-  nom: string;
-  email: string;
-  id: string;
-}
-
-export interface EnseignantDetails {
+export interface AuteurDetails {
   id: number;
   prenom: string;
   nom: string;
@@ -27,5 +22,6 @@ export interface GrilleEvaluation {
   date_modification: Date;
   criteres?: CriteresDetails[];
   auteur: number;
+  auteurDetails?: AuteurDetails;
   type: number;
 }

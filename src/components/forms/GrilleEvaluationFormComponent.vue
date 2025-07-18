@@ -7,6 +7,8 @@ import {useCritereStore} from "@/stores/critere";
 import {Critere} from "@/types/Critere";
 import { useGrilleEvaluationStore } from '@/stores/grilleEvaluation';
 import { useUserStore } from '@/stores/user';
+import { usePagination } from '@/composables/usePagination';
+import PaginationControls from '@/components/common/PaginationControls.vue';
 
 const critereStore = useCritereStore();
 const grilleEvaluationStore = useGrilleEvaluationStore();
@@ -27,17 +29,15 @@ const grille = ref<GrilleEvaluation>({
 
 const errorMessage = ref('');
 
-const itemsPerPage = 4;
-const currentPage = ref(1);
-
-const totalPages = computed(() => Math.ceil(criteres.value.length / itemsPerPage));
-
 const userStore = useUserStore();
 
-const paginatedCriteres = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage;
-  return criteres.value.slice(start, start + itemsPerPage);
-});
+const {
+  currentPage,
+  totalPages,
+  paginatedItems: paginatedCriteres,
+  nextPage,
+  prevPage
+} = usePagination(criteres, 4);
 
 const emit = defineEmits<{
   (e: 'submit', grille: GrilleEvaluation): void
@@ -189,25 +189,12 @@ const totalPoints = computed(() => {
             >
               {{ critere.name }}
             </button>
-            <div class="flex justify-center items-center gap-2 mt-2">
-              <button
-                class="px-2 py-1 bg-gray-200 rounded disabled:opacity-50"
-                :class="{ 'hover:cursor-pointer hover:bg-gray-300': currentPage !== 1 }"
-                :disabled="currentPage === 1"
-                @click="currentPage--"
-              >
-                Précédent
-              </button>
-              <span>Page {{ currentPage }} / {{ totalPages }}</span>
-              <button
-                class="px-2 py-1 bg-gray-200 rounded disabled:opacity-50"
-                :class="{ 'hover:cursor-pointer hover:bg-gray-300': currentPage !== totalPages }"
-                :disabled="currentPage === totalPages"
-                @click="currentPage++"
-              >
-                Suivant
-              </button>
-            </div>
+            <PaginationControls
+              :current-page="currentPage"
+              :total-pages="totalPages"
+              @prev-page="prevPage"
+              @next-page="nextPage"
+            />
           </div>
       </div>
       <div v-if="critereForm === true" class="fixed inset-0 w-full h-full flex items-center justify-center bg-gray-400/40">

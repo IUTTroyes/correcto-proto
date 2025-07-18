@@ -16,11 +16,6 @@ const enseignants = ref(userStore.enseignants);
 const sortKey = ref<string | null>(null);
 const sortOrder = ref<'asc' | 'desc' | null>(null);
 
-function getAuteurName(auteurId: number): string {
-  const auteur = enseignants.value.find(e => e.id === auteurId);
-  return auteur ? `${auteur.prenom} ${auteur.nom}` : 'Inconnu';
-}
-
 function toggleSort(key: string) {
   if (sortKey.value !== key) {
     sortKey.value = key;
@@ -180,7 +175,7 @@ onMounted(() => {
           <div>
             <div class="font-medium">{{grille.name}}</div>
             <div class="text-sm text-gray-500">
-              Auteur: {{ getAuteurName(grille.auteur) }}
+              Auteur: {{ grille.auteurDetails.prenom }} {{ grille.auteurDetails.nom }}
             </div>
           </div>
           <div class="text-sm text-gray-500">

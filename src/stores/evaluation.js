@@ -39,11 +39,11 @@ export const useEvalStore = defineStore('eval', () => {
     evaluationsData.forEach(evaluation => {
       // console.log('evaluation:', evaluation);
       evaluation.matiereDetails = matieresData.find(m => m.id === evaluation.matiere) || null;
-      evaluation.groupeDetails = groupeData.find(g => g.id === evaluation.groupe) || null;
+      // evaluation.groupeDetails = groupeData.find(g => g.id === evaluation.groupe) || null;
       evaluation.auteurDetails = auteurData.find(u => u.id === evaluation.auteur) || null;
 
       // Associer les grilles d'évaluation
-      evaluation.grilleDetails = evaluation.grille_eval.map(grilleId =>
+      evaluation.grilleDetails = evaluation.grilles.map(grilleId =>
           grilleData.find(g => g.id === grilleId)
       ).filter(grille => grille !== null);
 
@@ -54,6 +54,11 @@ export const useEvalStore = defineStore('eval', () => {
             critereData.find(c => c.id === critereId)
         ).filter(critere => critere !== null);
       });
+
+      // Associer les groupes
+      evaluation.groupeDetails = evaluation.groupe.map(groupeId =>
+      groupeData.find(g => g.id === groupeId)
+      ).filter(groupe => groupe !== null);
 
       // Ajouter le calcul des jours restants
       if (evaluation.date_fin) {
@@ -74,7 +79,7 @@ export const useEvalStore = defineStore('eval', () => {
     } catch (error) {
       console.error('Error fetching evaluations data:', error)
     } finally {
-      // console.log('Evaluations data fetched:', evaluations.value)
+      console.log('Evaluations data fetched:', evaluations.value)
     }
   }
 
@@ -156,6 +161,30 @@ export const useEvalStore = defineStore('eval', () => {
     })
   }
 
+  function addGrilleToEvaluation(evaluationId, grille) {
+    // Find the evaluation in all three arrays
+    const updateEvaluation = (evaluationArray) => {
+      const evaluation = evaluationArray.find(e => e.id === evaluationId);
+      if (evaluation) {
+        // Check if the grid is already added
+        if (!evaluation.grilles.includes(grille.id)) {
+          // Add the grid ID to the grilles array
+          evaluation.grilles.push(grille.id);
+
+          // Add the grid details to the grilleDetails array if it doesn't exist
+          if (!evaluation.grilleDetails.some(g => g.id === grille.id)) {
+            evaluation.grilleDetails.push(grille);
+          }
+        }
+      }
+    };
+
+    // Update in all three arrays
+    updateEvaluation(evaluations.value);
+    updateEvaluation(evaluationsEnseignant.value);
+    updateEvaluation(evaluationsMatiereEnseignant.value);
+  }
+
   return {
     evaluations,
     getEvaluations,
@@ -163,6 +192,7 @@ export const useEvalStore = defineStore('eval', () => {
     getEvaluationsEnseignant,
     evaluationsMatiereEnseignant,
     getEvaluationsMatieresEnseignant,
-    updateStatusEvaluationsEnCours
+    updateStatusEvaluationsEnCours,
+    addGrilleToEvaluation
   }
 })

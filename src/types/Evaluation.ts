@@ -36,8 +36,9 @@ export interface Evaluation {
   name: string;
   ressources: [];
   matiereDetails?: MatiereDetails;
-  groupeDetails: GroupeDetails;
+  groupeDetails: GroupeDetails[];
   grilleDetails: GrillesEvaluationDetails[];
+  grilles: string[];
   actif: boolean;
   status: number;
   date_debut?: Date;
@@ -45,6 +46,6 @@ export interface Evaluation {
   date_creation?: Date;
   date_modification?: Date;
   auteur: number;
-    auteurDetails?: AuteurDetails;
+  auteurDetails?: AuteurDetails;
   joursRestants?: number;
 }
