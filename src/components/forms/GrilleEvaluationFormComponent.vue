@@ -61,10 +61,22 @@ onMounted(async () => {
   try {
     await evalStore.getEvaluations();
     evaluations.value = evalStore.evaluations;
+
+    // If an evaluation ID is provided, find the evaluation and add it to the grille
+    if (props.evaluationId) {
+      const evaluation = evaluations.value.find(e => e.id === props.evaluationId);
+      if (evaluation) {
+        addEvaluationToGrille(evaluation);
+      }
+    }
   } catch (error) {
     console.error('Error fetching evaluations:', error);
   }
 });
+
+const props = defineProps<{
+  evaluationId?: number;
+}>();
 
 const emit = defineEmits<{
   (e: 'submit', grille: GrilleEvaluation): void
@@ -169,7 +181,7 @@ const totalPoints = computed(() => {
           Cette valeur est calculée automatiquement en fonction des critères ajoutés.
         </div>
       </div>
-      <div class="flex flex-col gap-2 w-full">
+      <div class="flex flex-col gap-2 w-full p-4 border border-gray-200 rounded">
         <div class="flex justify-between items-center">
           <label for="description" class="font-medium">Évaluations</label>
           <button
@@ -180,7 +192,7 @@ const totalPoints = computed(() => {
             <PlusIcon class="inline-block size-4" aria-hidden="true"/>Ajouter une évaluation
           </button>
         </div>
-        <div v-if="grille.evaluationDetails.length === 0" class="p-2 border border-gray-200 rounded text-base bg-gray-100 text-gray-500">
+        <div v-if="grille.evaluationDetails.length === 0" class=" w-fit mx-auto p-4">
           Aucune évaluation associée à cette grille.
         </div>
         <div v-for="evaluation in grille.evaluationDetails" :key="evaluation.id" class="p-2 border border-gray-200 rounded text-base bg-gray-100 flex justify-between items-center">

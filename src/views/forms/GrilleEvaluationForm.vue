@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { GrilleEvaluation } from "@/types/GrilleEvaluation";
 import GrilleEvaluationFormComponent from "@/components/forms/GrilleEvaluationFormComponent.vue";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+const evaluationId = route.query.evaluationId ? Number(route.query.evaluationId) : undefined;
 
 function handleSubmit(grille: GrilleEvaluation) {
   console.log("Form submitted:", grille);
@@ -17,7 +21,7 @@ function handleSubmit(grille: GrilleEvaluation) {
     </div>
 
     <div class="flex md:flex-row flex-col gap-4 w-full">
-      <GrilleEvaluationFormComponent @submit="handleSubmit" />
+      <GrilleEvaluationFormComponent @submit="handleSubmit" :evaluation-id="evaluationId" />
     </div>
 
   </main>

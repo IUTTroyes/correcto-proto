@@ -186,14 +186,14 @@ const totalPoints = (grille: { criteres: { points: number }[] }) => {
             <p class="text-gray-500 m-0 p-0">Créez votre première grille d'évaluation.</p>
           </div>
           <button>
-            <router-link to="evaluations/grille/new" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">
+            <router-link :to="{ path: 'evaluations/grille/new', query: { evaluationId: evaluation.id } }" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">
               Créer une grille d'évaluation
             </router-link>
           </button>
         </div>
         <div v-else class="flex flex-col gap-6">
           <button>
-            <router-link to="evaluations/grille/new" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">
+            <router-link :to="{ path: 'evaluations/grille/new', query: { evaluationId: evaluation.id } }" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">
               Créer une grille d'évaluation
             </router-link>
           </button>
