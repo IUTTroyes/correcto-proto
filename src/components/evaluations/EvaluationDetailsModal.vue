@@ -138,8 +138,8 @@ const totalPoints = (grille: { criteres: { points: number }[] }) => {
             <PlusIcon class="inline-block size-4" aria-hidden="true"/>Ajouter une grille
           </div>
         </div>
-        <div class="flex gap-4">
-          <div v-for="(grille, index) in evaluation.grilleDetails" :key="index" class="border border-gray-200 rounded-md p-2 flex flex-col gap-2 w-1/2 hover:border-gray-400 hover:cursor-pointer transition-colors">
+        <div class="grid grid-cols-3 gap-4 w-full">
+          <div v-for="(grille, index) in evaluation.grilleDetails" :key="index" class="border border-gray-200 rounded-md p-2 flex flex-col gap-2 hover:border-gray-400 hover:cursor-pointer transition-colors">
             <div class="flex justify-between items-center w-full">
               <div>
                 {{ grille.name }}
@@ -186,14 +186,14 @@ const totalPoints = (grille: { criteres: { points: number }[] }) => {
             <p class="text-gray-500 m-0 p-0">Créez votre première grille d'évaluation.</p>
           </div>
           <button>
-            <router-link to="" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">
+            <router-link to="evaluations/grille/new" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">
               Créer une grille d'évaluation
             </router-link>
           </button>
         </div>
         <div v-else class="flex flex-col gap-6">
           <button>
-            <router-link to="" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">
+            <router-link to="evaluations/grille/new" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">
               Créer une grille d'évaluation
             </router-link>
           </button>

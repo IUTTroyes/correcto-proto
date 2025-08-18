@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {defineEmits, ref, computed} from 'vue';
+import {defineEmits, ref, computed, onMounted} from 'vue';
 import {useRouter} from 'vue-router';
 import { GrilleEvaluation } from "@/types/GrilleEvaluation";
 import CritereForm from "@/components/forms/CritereForm.vue";
@@ -8,6 +8,7 @@ import {useCritereStore} from "@/stores/critere";
 import {Critere} from "@/types/Critere";
 import { useGrilleEvaluationStore } from '@/stores/grilleEvaluation';
 import { useUserStore } from '@/stores/user';
+import { useEvalStore } from '@/stores/evaluation';
 import { usePagination } from '@/composables/usePagination';
 import PaginationControls from '@/components/common/PaginationControls.vue';
 
@@ -15,10 +16,14 @@ const router = useRouter();
 
 const critereStore = useCritereStore();
 const grilleEvaluationStore = useGrilleEvaluationStore();
+const evalStore = useEvalStore();
 
 const criteres = ref(critereStore.criteres);
+const evaluations = ref(evalStore.evaluations);
 const critereStep = ref(0);
 const critereForm = ref(false);
+const evaluationStep = ref(0);
+const evaluationForm = ref(false);
 
 const grille = ref<GrilleEvaluation>({
   name: '',
@@ -28,6 +33,8 @@ const grille = ref<GrilleEvaluation>({
   date_modification: new Date(),
   auteur: [],
   criteres: [],
+  evaluations: [],
+  evaluationDetails: [],
 })
 
 const errorMessage = ref('');
@@ -41,6 +48,23 @@ const {
   nextPage,
   prevPage
 } = usePagination(criteres, 4);
+
+const {
+  currentPage: currentPageEval,
+  totalPages: totalPagesEval,
+  paginatedItems: paginatedEvaluations,
+  nextPage: nextPageEval,
+  prevPage: prevPageEval
+} = usePagination(evaluations, 4);
+
+onMounted(async () => {
+  try {
+    await evalStore.getEvaluations();
+    evaluations.value = evalStore.evaluations;
+  } catch (error) {
+    console.error('Error fetching evaluations:', error);
+  }
+});
 
 const emit = defineEmits<{
   (e: 'submit', grille: GrilleEvaluation): void
@@ -80,9 +104,27 @@ function showCritereForm() {
 }
 
 function handleCritereSubmit(critere: Critere) {
-  grille.value.criteresDetails.push(critere);
+  grille.value.criteres.push(critere);
   critereStore.addCritere(critere);
   critereForm.value = false;
+}
+
+function addEvaluation() {
+  evaluationStep.value = 1;
+}
+
+function showEvaluationForm() {
+  evaluationForm.value = !evaluationForm.value;
+}
+
+function addEvaluationToGrille(evaluation: any) {
+  // Add the evaluation ID to the evaluations array if it doesn't already exist
+  if (!grille.value.evaluations.includes(evaluation.id)) {
+    grille.value.evaluations.push(evaluation.id);
+
+    // Add the evaluation details to the evaluationDetails array
+    grille.value.evaluationDetails.push(evaluation);
+  }
 }
 
 const totalPoints = computed(() => {
@@ -125,6 +167,33 @@ const totalPoints = computed(() => {
         </div>
         <div class="text-xs text-gray-500">
           Cette valeur est calculée automatiquement en fonction des critères ajoutés.
+        </div>
+      </div>
+      <div class="flex flex-col gap-2 w-full">
+        <div class="flex justify-between items-center">
+          <label for="description" class="font-medium">Évaluations</label>
+          <button
+            type="button"
+            class="px-3 py-1 bg-red-400 text-white rounded-md text-sm hover:bg-red-500 transition-colors cursor-pointer flex items-center gap-1"
+            @click="addEvaluation()"
+          >
+            <PlusIcon class="inline-block size-4" aria-hidden="true"/>Ajouter une évaluation
+          </button>
+        </div>
+        <div v-if="grille.evaluationDetails.length === 0" class="p-2 border border-gray-200 rounded text-base bg-gray-100 text-gray-500">
+          Aucune évaluation associée à cette grille.
+        </div>
+        <div v-for="evaluation in grille.evaluationDetails" :key="evaluation.id" class="p-2 border border-gray-200 rounded text-base bg-gray-100 flex justify-between items-center">
+          <div>
+            <div>{{ evaluation.name }}</div>
+            <div class="text-sm text-gray-600">{{ evaluation.description }}</div>
+          </div>
+          <button
+            type="button"
+            class="text-red-600 hover:text-red-800 transition-colors hover:cursor-pointer"
+            @click="grille.evaluations = grille.evaluations.filter(id => id !== evaluation.id); grille.evaluationDetails = grille.evaluationDetails.filter(e => e.id !== evaluation.id)">
+            <TrashIcon class="inline-block size-4" aria-hidden="true" />
+          </button>
         </div>
       </div>
       <div v-if="grille.criteres.length > 0" class="flex flex-col gap-2 w-full bg-gray-50 border border-gray-200 rounded p-4">
@@ -217,6 +286,58 @@ const totalPoints = computed(() => {
           <div>
             <CritereForm @submit="handleCritereSubmit" />
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal pour ajouter des évaluations -->
+  <div v-if="evaluationStep === 1" class="fixed inset-0 w-full h-full flex items-center justify-center bg-gray-400/40">
+    <div class="bg-white border border-gray-200 rounded-md z-50 w-2/3 max-h-full shadow-md mx-auto p-6">
+      <div class="flex justify-between items-center border-b border-gray-200 pb-4 mb-4">
+        <h2 class="text-lg">Choisissez les évaluations à ajouter à votre grille</h2>
+        <button @click="evaluationStep = 0" class="text-gray-500 hover:text-gray-800">
+          <XMarkIcon class="inline-block size-6 hover:cursor-pointer" aria-hidden="true" />
+        </button>
+      </div>
+      <div>
+        <div v-if="evaluations.length === 0" class="flex flex-col gap-2 justify-center items-center mb-12">
+          <FolderIcon class="w-14 h-14 mx-auto text-gray-400" />
+          <div class="flex flex-col items-center">
+            <p class="text-sm m-0 p-0">Aucune évaluation trouvée.</p>
+            <p class="text-gray-500 m-0 p-0">Créez votre première évaluation.</p>
+          </div>
+          <button>
+            <router-link to="/evaluations/new" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">
+              Créer une évaluation
+            </router-link>
+          </button>
+        </div>
+        <div v-else class="flex flex-col gap-6">
+          <div class="flex flex-col gap-2">
+            <button
+                v-for="evaluation in paginatedEvaluations"
+                :key="evaluation.id"
+                class="border border-gray-200 p-2 rounded-md hover:bg-gray-100 transition-colors hover:cursor-pointer text-left disabled:bg-gray-100 disabled:hover:cursor-auto"
+                :disabled="grille.evaluations.includes(evaluation.id)"
+                @click="addEvaluationToGrille(evaluation)"
+            >
+              <div class="flex md:flex-row flex-col justify-between md:items-center">
+                <div>
+                  <div class="font-medium">{{evaluation.name}}</div>
+                  <div class="text-sm text-gray-500">
+                    Auteur: {{ evaluation.auteurDetails?.prenom }} {{ evaluation.auteurDetails?.nom }}
+                  </div>
+                </div>
+              </div>
+            </button>
+          </div>
+          <PaginationControls
+              :current-page="currentPageEval"
+              :total-pages="totalPagesEval"
+              @prev-page="prevPageEval"
+              @next-page="nextPageEval"
+          />
         </div>
       </div>
     </div>

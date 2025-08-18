@@ -13,7 +13,8 @@ export const useGrilleEvaluationStore = defineStore('grille', () => {
         const responses = await Promise.all([
             fetch('/GrilleEvaluation.json'),
             fetch('/Critere.json'),
-            fetch('/User.json')
+            fetch('/User.json'),
+            fetch('/Evaluation.json')
         ])
         if (responses.some(response => !response.ok)) {
             console.error('Failed to fetch data', responses.map(r => r.statusText))
@@ -22,7 +23,7 @@ export const useGrilleEvaluationStore = defineStore('grille', () => {
         return Promise.all(responses.map(r => r.json()))
     }
 
-    async function completeGrilles(grillesData, criteresData, auteurData) {
+    async function completeGrilles(grillesData, criteresData, auteurData, evaluationsData) {
         grillesData.forEach(grille => {
             // Associer les critères à chaque grille
             grille.criteres = grille.criteres.map(critereId =>
@@ -33,6 +34,16 @@ export const useGrilleEvaluationStore = defineStore('grille', () => {
             if (!grille.auteurDetails) {
                 grille.auteurDetails = auteurData.find(auteur => auteur.id === grille.auteur) || null
             }
+
+            // Associer les évaluations à chaque grille
+            if (grille.evaluations && Array.isArray(grille.evaluations)) {
+                grille.evaluationDetails = grille.evaluations.map(evaluationId =>
+                    evaluationsData.find(evaluation => evaluation.id === evaluationId)
+                ).filter(evaluation => evaluation !== null)
+            } else {
+                grille.evaluations = []
+                grille.evaluationDetails = []
+            }
         })
     }
 
@@ -40,8 +51,8 @@ export const useGrilleEvaluationStore = defineStore('grille', () => {
         try {
             const data = await fetchData()
             if (!data) return []
-            const [grillesData, criteresData, auteurData] = data
-            completeGrilles(grillesData, criteresData, auteurData)
+            const [grillesData, criteresData, auteurData, evaluationsData] = data
+            completeGrilles(grillesData, criteresData, auteurData, evaluationsData)
             grilles.value = grillesData
         } catch (error) {
             console.error('Error fetching grille evaluation data:', error)
@@ -64,6 +75,8 @@ export const useGrilleEvaluationStore = defineStore('grille', () => {
                     name: newGrille.name || '',
                     description: newGrille.description || '',
                     criteres: newGrille.criteres || [],
+                    evaluations: newGrille.evaluations || [],
+                    evaluationDetails: newGrille.evaluationDetails || [],
                     total_points: newGrille.total_points || 0,
                     date_creation: new Date().toISOString(),
                     date_modification: new Date().toISOString(),
