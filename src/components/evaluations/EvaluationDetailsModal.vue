@@ -6,7 +6,7 @@ import {
   DocumentIcon,
   ArrowTopRightOnSquareIcon,
   ExclamationTriangleIcon,
-  ArrowRightIcon, PlusIcon, DocumentTextIcon
+  ArrowRightIcon, PlusIcon, DocumentTextIcon, TrashIcon
 } from "@heroicons/vue/24/outline";
 import {useGrilleEvaluationStore} from '@/stores/grilleEvaluation';
 import { useUserStore } from '@/stores/user';
@@ -139,7 +139,7 @@ const totalPoints = (grille: { criteres: { points: number }[] }) => {
           </div>
         </div>
         <div class="flex gap-4">
-          <div v-for="grille in evaluation.grilleDetails" class="border border-gray-200 rounded-md p-2 flex flex-col gap-2 w-1/2 hover:border-gray-400 hover:cursor-pointer transition-colors" :key="grille.id">
+          <div v-for="(grille, index) in evaluation.grilleDetails" :key="index" class="border border-gray-200 rounded-md p-2 flex flex-col gap-2 w-1/2 hover:border-gray-400 hover:cursor-pointer transition-colors">
             <div class="flex justify-between items-center w-full">
               <div>
                 {{ grille.name }}
@@ -157,6 +157,13 @@ const totalPoints = (grille: { criteres: { points: number }[] }) => {
                 <span class="font-semibold text-gray-600">{{ critere.points }}<span class="text-gray-400">/</span>{{ totalPoints(grille) }}</span>
               </li>
             </ul>
+
+            <button
+                type="button"
+                class="absolute bottom-0 right-0 text-red-600 hover:text-red-800 transition-colors hover:cursor-pointer z-10"
+                @click="evaluation.grilleDetails.splice(index, 1)">
+              <TrashIcon class="inline-block size-4" aria-hidden="true" />
+            </button>
           </div>
         </div>
       </div>

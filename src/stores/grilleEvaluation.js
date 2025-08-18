@@ -29,8 +29,10 @@ export const useGrilleEvaluationStore = defineStore('grille', () => {
                 criteresData.find(critere => critere.id === critereId)
             ).filter(critere => critere !== null)
 
-            // Associer les auteurs à chaque grille
-            grille.auteurDetails = auteurData.find(auteur => auteur.id === grille.auteur) || null
+            // Si auteurDetails n'est pas déjà présent dans la structure JSON, l'associer
+            if (!grille.auteurDetails) {
+                grille.auteurDetails = auteurData.find(auteur => auteur.id === grille.auteur) || null
+            }
         })
     }
 
@@ -47,13 +49,37 @@ export const useGrilleEvaluationStore = defineStore('grille', () => {
     }
 
     async function addGrille(newGrille) {
-        try {
-            // Simuler l'ajout d'une grille
-            grilles.value.push(newGrille)
-            console.log('Grille ajoutée:', newGrille)
-        } catch (error) {
-            console.error('Error adding grille:', error)
-        }
+        return new Promise(async (resolve, reject) => {
+            try {
+                const id = grilles.value.length + 1;
+
+                // Fetch user data to get author details
+                const response = await fetch('/User.json');
+                const userData = await response.json();
+                const auteurId = newGrille.auteur || 0;
+                const auteurDetails = userData.find(user => user.id === auteurId) || null;
+
+                const completeGrille = {
+                    id: id,
+                    name: newGrille.name || '',
+                    description: newGrille.description || '',
+                    criteres: newGrille.criteres || [],
+                    total_points: newGrille.total_points || 0,
+                    date_creation: new Date().toISOString(),
+                    date_modification: new Date().toISOString(),
+                    auteur: auteurId,
+                    auteurDetails: auteurDetails ? { prenom: auteurDetails.prenom, nom: auteurDetails.nom } : null,
+                    type: newGrille.type || 1
+                };
+
+                grilles.value.push(completeGrille);
+                console.log('Grille ajoutée:', completeGrille);
+                resolve(completeGrille);
+            } catch (error) {
+                console.error('Error adding grille:', error);
+                reject(error);
+            }
+        });
     }
 
     return {

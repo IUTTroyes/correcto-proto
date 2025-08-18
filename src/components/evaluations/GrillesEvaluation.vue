@@ -69,19 +69,15 @@ function applyFiltersAndSort() {
       } else if (sortKey.value === 'date_modification') {
         res = new Date(a.date_modification).getTime() - new Date(b.date_modification).getTime();
       } else if (sortKey.value === 'auteur') {
-        // Find the authors in the enseignants array
-        const auteurA = enseignants.value.find(e => e.id === a.auteur);
-        const auteurB = enseignants.value.find(e => e.id === b.auteur);
-
-        // Compare author names (prenom + nom) - same order as in the dropdown
-        if (auteurA && auteurB) {
-          const fullNameA = `${auteurA.prenom} ${auteurA.nom}`;
-          const fullNameB = `${auteurB.prenom} ${auteurB.nom}`;
+        // Use auteurDetails directly from the grille object
+        if (a.auteurDetails && b.auteurDetails) {
+          const fullNameA = `${a.auteurDetails.prenom} ${a.auteurDetails.nom}`;
+          const fullNameB = `${b.auteurDetails.prenom} ${b.auteurDetails.nom}`;
           res = fullNameA.localeCompare(fullNameB);
-        } else if (auteurA) {
-          res = -1; // A has author, B doesn't
-        } else if (auteurB) {
-          res = 1;  // B has author, A doesn't
+        } else if (a.auteurDetails) {
+          res = -1; // A has author details, B doesn't
+        } else if (b.auteurDetails) {
+          res = 1;  // B has author details, A doesn't
         }
       }
       return sortOrder.value === 'asc' ? res : -res;
@@ -89,6 +85,7 @@ function applyFiltersAndSort() {
   }
 
   grilles.value = filteredGrilles;
+  console.log(grilles.value);
 }
 
 // Watch for changes in filters and sorting
@@ -175,7 +172,7 @@ onMounted(() => {
           <div>
             <div class="font-medium">{{grille.name}}</div>
             <div class="text-sm text-gray-500">
-              Auteur: {{ grille.auteurDetails.prenom }} {{ grille.auteurDetails.nom }}
+              Auteur: {{ grille.auteurDetails?.prenom }} {{ grille.auteurDetails?.nom }}
             </div>
           </div>
           <div class="text-sm text-gray-500">

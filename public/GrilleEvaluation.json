@@ -8,6 +8,10 @@
     "date_creation": "2023-09-01T10:00:00Z",
     "date_modification": "2023-09-10T14:30:00Z",
     "auteur": 1,
+    "auteurDetails": {
+      "prenom": "John",
+      "nom": "Doe"
+    },
     "type": 1
   },
   {
@@ -19,6 +23,10 @@
     "date_creation": "2023-10-05T09:15:00Z",
     "date_modification": "2023-10-12T11:45:00Z",
     "auteur": 1,
+    "auteurDetails": {
+      "prenom": "John",
+      "nom": "Doe"
+    },
     "type":  1
   },
   {
@@ -30,6 +38,10 @@
     "date_creation": "2023-11-15T08:30:00Z",
     "date_modification": "2023-11-20T16:20:00Z",
     "auteur": 3,
+    "auteurDetails": {
+      "prenom": "Bob",
+      "nom": "Dylan"
+    },
     "type":  1
   },
   {
@@ -41,6 +53,10 @@
     "date_creation": "2023-12-01T10:00:00Z",
     "date_modification": "2023-12-05T14:30:00Z",
     "auteur": 1,
+    "auteurDetails": {
+      "prenom": "John",
+      "nom": "Doe"
+    },
     "type":  1
   },
   {
@@ -52,6 +68,10 @@
     "date_creation": "2023-12-01T10:00:00Z",
     "date_modification": "2023-12-05T14:30:00Z",
     "auteur": 1,
+    "auteurDetails": {
+      "prenom": "John",
+      "nom": "Doe"
+    },
     "type":  2
   }
 ]

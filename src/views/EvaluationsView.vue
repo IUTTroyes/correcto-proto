@@ -1,10 +1,18 @@
 <script setup>
-import {ref} from "vue";
+import { ref, onMounted } from "vue";
+import { useRoute } from "vue-router";
 import ListeEvaluations from "@/components/evaluations/ListeEvaluations.vue";
 import GrillesEvaluation from "@/components/evaluations/GrillesEvaluation.vue";
 import SuiviNotes from "@/components/evaluations/SuiviNotes.vue";
 
+const route = useRoute();
 const currentView = ref('evals'); // Vue par défaut
+
+onMounted(() => {
+  if (route.query.currentView) {
+    currentView.value = route.query.currentView;
+  }
+});
 
 const nav = [
   { name: 'Liste des évaluations', view: 'evals' },

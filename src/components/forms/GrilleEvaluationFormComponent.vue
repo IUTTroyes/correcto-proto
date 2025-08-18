@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {defineEmits, ref, computed} from 'vue';
+import {useRouter} from 'vue-router';
 import { GrilleEvaluation } from "@/types/GrilleEvaluation";
 import CritereForm from "@/components/forms/CritereForm.vue";
 import {FolderIcon, PlusIcon, TrashIcon, XMarkIcon} from "@heroicons/vue/24/outline";
@@ -9,6 +10,8 @@ import { useGrilleEvaluationStore } from '@/stores/grilleEvaluation';
 import { useUserStore } from '@/stores/user';
 import { usePagination } from '@/composables/usePagination';
 import PaginationControls from '@/components/common/PaginationControls.vue';
+
+const router = useRouter();
 
 const critereStore = useCritereStore();
 const grilleEvaluationStore = useGrilleEvaluationStore();
@@ -44,7 +47,7 @@ const emit = defineEmits<{
   (e: 'close'): void
 }>();
 
-function handleSubmit(grille: GrilleEvaluation) {
+async function handleSubmit(grille: GrilleEvaluation) {
   if (userStore.user) {
     grille.auteur = userStore.user.id
   } else {
@@ -58,7 +61,13 @@ function handleSubmit(grille: GrilleEvaluation) {
     errorMessage.value = 'Veuillez remplir tous les champs requis.';
     return;
   } else {
-    grilleEvaluationStore.addGrille(grille);
+    try {
+      await grilleEvaluationStore.addGrille(grille);
+      router.push({ path: '/evaluations', query: { currentView: 'grilles' } });
+    } catch (error) {
+      console.error('Erreur lors de la création de la grille :', error);
+      errorMessage.value = 'Une erreur est survenue lors de la création de la grille.';
+    }
   }
 }
 
@@ -179,23 +188,23 @@ const totalPoints = computed(() => {
           Nouveau critère
         </button>
         <div class="flex flex-col gap-2">
-            <div class="text-sm font-medium mb-2">Critères disponibles :</div>
-            <button
+          <div class="text-sm font-medium mb-2">Critères disponibles :</div>
+          <button
               v-for="critere in paginatedCriteres"
               :key="critere.id"
               class="border border-gray-200 p-2 rounded-md hover:bg-gray-100 transition-colors hover:cursor-pointer text-left disabled:bg-gray-100 disabled:hover:cursor-auto"
               :disabled="grille.criteres.some(c => c.id === critere.id)"
               @click="grille.criteres.push(critere)"
-            >
-              {{ critere.name }}
-            </button>
-            <PaginationControls
+          >
+            {{ critere.name }}
+          </button>
+          <PaginationControls
               :current-page="currentPage"
               :total-pages="totalPages"
               @prev-page="prevPage"
               @next-page="nextPage"
-            />
-          </div>
+          />
+        </div>
       </div>
       <div v-if="critereForm === true" class="fixed inset-0 w-full h-full flex items-center justify-center bg-gray-400/40">
         <div class="bg-white border border-gray-200 rounded-md z-50 w-2/3 max-h-full shadow-md mx-auto p-6">
