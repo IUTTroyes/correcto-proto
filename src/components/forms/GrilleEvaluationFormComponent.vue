@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {defineEmits, ref, computed, onMounted} from 'vue';
 import {useRouter} from 'vue-router';
+import { DefineProps } from 'vue';
 import { GrilleEvaluation } from "@/types/GrilleEvaluation";
 import CritereForm from "@/components/forms/CritereForm.vue";
 import {FolderIcon, PlusIcon, TrashIcon, XMarkIcon} from "@heroicons/vue/24/outline";
@@ -13,6 +14,11 @@ import { usePagination } from '@/composables/usePagination';
 import PaginationControls from '@/components/common/PaginationControls.vue';
 
 const router = useRouter();
+
+const props = defineProps<{
+  evaluationId?: number;
+}>();
+
 
 const critereStore = useCritereStore();
 const grilleEvaluationStore = useGrilleEvaluationStore();
@@ -62,6 +68,7 @@ onMounted(async () => {
     await evalStore.getEvaluations();
     evaluations.value = evalStore.evaluations;
 
+    console.log(props.evaluationId);
     // If an evaluation ID is provided, find the evaluation and add it to the grille
     if (props.evaluationId) {
       const evaluation = evaluations.value.find(e => e.id === props.evaluationId);
@@ -73,10 +80,6 @@ onMounted(async () => {
     console.error('Error fetching evaluations:', error);
   }
 });
-
-const props = defineProps<{
-  evaluationId?: number;
-}>();
 
 const emit = defineEmits<{
   (e: 'submit', grille: GrilleEvaluation): void
@@ -198,7 +201,7 @@ const totalPoints = computed(() => {
         <div v-for="evaluation in grille.evaluationDetails" :key="evaluation.id" class="p-2 border border-gray-200 rounded text-base bg-gray-100 flex justify-between items-center">
           <div>
             <div>{{ evaluation.name }}</div>
-            <div class="text-sm text-gray-600">{{ evaluation.description }}</div>
+<!--            <div class="text-sm text-gray-600">{{ evaluation.description }}</div>-->
           </div>
           <button
             type="button"

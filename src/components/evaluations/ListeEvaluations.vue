@@ -111,7 +111,7 @@ watch(isModalOpen, (newValue) => {
             <div class="flex items-center gap-2 md:max-w-2/3">
               <div class="flex flex-col gap-1">
                 <div class="flex items-center gap-4">
-                  <div>{{evaluation.name}}</div>
+                  <div class="font-medium">{{evaluation.name}}</div>
                   <div v-if="evaluation.status === 0" class="bg-amber-100 text-amber-600 font-bold rounded-md p-1 px-2 text-xs">
                     <div>
                       En attente

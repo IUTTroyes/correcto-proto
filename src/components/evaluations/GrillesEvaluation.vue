@@ -3,6 +3,8 @@ import {ref, watch, onMounted} from 'vue';
 import {useGrilleEvaluationStore} from '@/stores/grilleEvaluation';
 import { useUserStore } from '@/stores/user';
 import {BarsArrowDownIcon, BarsArrowUpIcon, DocumentTextIcon, PlusIcon} from "@heroicons/vue/24/outline";
+import type {GrilleEvaluation} from "@/types/GrilleEvaluation";
+import GrilleDetailsModal from "@/components/evaluations/GrilleDetailsModal.vue";
 
 const grilleStore = useGrilleEvaluationStore();
 const userStore = useUserStore();
@@ -10,6 +12,8 @@ const userStore = useUserStore();
 const selectedFilter = ref<'perso' | 'matieres' | 'all'>('perso');
 const selectedType = ref<'classique' | 'auto-evaluation' | ''>('');
 const selectedAuteur = ref<string>('');
+const selectedGrille = ref<GrilleEvaluation | null>(null);
+const isModalOpen = ref(false);
 const grilles = ref(grilleStore.grilles);
 const enseignants = ref(userStore.enseignants);
 
@@ -97,6 +101,21 @@ watch([selectedFilter, selectedType, selectedAuteur, sortKey, sortOrder], () => 
 onMounted(() => {
   applyFiltersAndSort();
 });
+
+const openModal = (grille: GrilleEvaluation) => {
+  selectedGrille.value = grille;
+  console.log(selectedGrille.value);
+  isModalOpen.value = true;
+};
+
+const closeModal = () => {
+  selectedGrille.value = null;
+  isModalOpen.value = false;
+};
+
+watch(isModalOpen, (newValue) => {
+  document.body.style.overflow = newValue ? 'hidden' : '';
+});
 </script>
 
 <template>
@@ -149,6 +168,7 @@ onMounted(() => {
                 <BarsArrowDownIcon class="inline-block size-3" aria-hidden="true" v-if="sortKey === 'date_modification' && sortOrder === 'desc'"/>
                 Date de création
               </button>
+
             </div>
           </div>
         </div>
@@ -169,19 +189,26 @@ onMounted(() => {
 
       <div v-else v-for="grille in grilles" class="p-1 w-full border-b border-gray-200 last:border-b-0 pb-4">
         <div class="flex md:flex-row flex-col justify-between md:items-center">
-          <div>
+          <div class="flex flex-col gap-1">
             <div class="font-medium">{{grille.name}}</div>
             <div class="text-sm text-gray-500">
               Auteur: {{ grille.auteurDetails?.prenom }} {{ grille.auteurDetails?.nom }}
             </div>
+            <div class="text-xs text-gray-500">
+              {{ new Date(grille.date_modification).toLocaleDateString() }}
+            </div>
           </div>
-          <div class="text-sm text-gray-500">
-            {{ new Date(grille.date_modification).toLocaleDateString() }}
-          </div>
+          <button
+              class="px-3 py-1 bg-red-400 text-white rounded-md text-sm hover:bg-red-500 transition-colors cursor-pointer"
+              @click="openModal(grille)">
+            Détails
+          </button>
         </div>
       </div>
     </div>
   </div>
+  <GrilleDetailsModal v-if="isModalOpen" :grille="selectedGrille" @close="closeModal"/>
+
 </template>
 
 <style scoped>
