@@ -40,7 +40,6 @@ export interface Evaluation {
   grilleDetails: GrillesEvaluationDetails[];
   grilles: string[];
   actif: boolean;
-  status: number;
   date_debut?: Date;
   date_fin?: Date;
   date_creation?: Date;

@@ -195,7 +195,8 @@ watch(isModalOpen, (newValue) => {
               Auteur: {{ grille.auteurDetails?.prenom }} {{ grille.auteurDetails?.nom }}
             </div>
             <div class="text-xs text-gray-500">
-              {{ new Date(grille.date_modification).toLocaleDateString() }}
+              <span>Date de création : {{ new Date(grille.date_creation).toLocaleDateString() }}</span> |
+              <span>Dernière modification : {{ new Date(grille.date_modification).toLocaleDateString() }}</span>
             </div>
           </div>
           <button

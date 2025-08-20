@@ -1,4 +1,4 @@
-import {AuteurDetails} from "@/types/Evaluation";
+import {Evaluation} from "@/types/Evaluation";
 
 export interface CriteresDetails {
   name: string;
@@ -22,7 +22,7 @@ export interface GrilleEvaluation {
   date_modification: Date;
   criteres?: CriteresDetails[];
   evaluations?: number[];
-  evaluationDetails?: any[];
+  evaluationsDetails?: Evaluation[];
   auteur: number;
   auteurDetails?: AuteurDetails;
   type: number;

@@ -28,12 +28,6 @@ const {
   prevPage
 } = usePagination(grilles, 4);
 
-onMounted(
-  async () => {
-    console.log(grilles.value);
-  }
-)
-
 const props = defineProps<{
   evaluation: Evaluation;
 }>();
@@ -139,28 +133,30 @@ const totalPoints = (grille: { criteres: { points: number }[] }) => {
           </div>
         </div>
         <div class="grid grid-cols-3 gap-4 w-full">
-          <div v-for="(grille, index) in evaluation.grilleDetails" :key="index" class="border border-gray-200 rounded-md p-2 flex flex-col gap-2 hover:border-gray-400 hover:cursor-pointer transition-colors">
-            <div class="flex justify-between items-center w-full">
-              <div>
-                {{ grille.name }}
-              </div>
-              <div :class="grille.type === 1 ? 'bg-blue-100 text-blue-600' : 'bg-purple-100 text-purple-600'" class="p-2 rounded-md text-xs font-medium">
-                {{ grille.type === 2 ? "Étudiant" : "Enseignant" }}
-              </div>
-            </div>
-            <ul class="flex flex-col gap-2">
-              <li v-for="critere in grille.criteres" class="flex items-center gap-4 justify-between bg-gray-50 rounded px-3 py-2 text-sm">
+          <div v-for="(grille, index) in evaluation.grilleDetails" :key="index" class="border border-gray-200 rounded-md p-2 flex flex-col justify-between gap-2 hover:border-gray-400 hover:cursor-pointer transition-colors">
+            <div>
+              <div class="flex justify-between items-center w-full">
                 <div>
-                  <span class="font-medium text-gray-700">{{ critere.name }} :</span>
-                  <span class="text-gray-500 ml-1">{{ critere.description }}</span>
+                  {{ grille.name }}
                 </div>
-                <span class="font-semibold text-gray-600">{{ critere.points }}<span class="text-gray-400">/</span>{{ totalPoints(grille) }}</span>
-              </li>
-            </ul>
+                <div :class="grille.type === 1 ? 'bg-blue-100 text-blue-600' : 'bg-purple-100 text-purple-600'" class="p-2 rounded-md text-xs font-medium">
+                  {{ grille.type === 2 ? "Étudiant" : "Enseignant" }}
+                </div>
+              </div>
+              <ul class="flex flex-col gap-2">
+                <li v-for="critere in grille.criteres" class="flex items-center gap-4 justify-between bg-gray-50 rounded px-3 py-2 text-sm">
+                  <div>
+                    <span class="font-medium text-gray-700">{{ critere.name }} :</span>
+                    <span class="text-gray-500 ml-1">{{ critere.description }}</span>
+                  </div>
+                  <span class="font-semibold text-gray-600">{{ critere.points }}<span class="text-gray-400">/</span>{{ totalPoints(grille) }}</span>
+                </li>
+              </ul>
+            </div>
 
             <button
                 type="button"
-                class="absolute bottom-0 right-0 text-red-600 hover:text-red-800 transition-colors hover:cursor-pointer z-10"
+                class="text-red-600 hover:text-red-800 bg-red-50 p-2 flex justify-center items-center transition-colors hover:cursor-pointer hover:bg-red-100 z-10"
                 @click="evaluation.grilleDetails.splice(index, 1)">
               <TrashIcon class="inline-block size-4" aria-hidden="true" />
             </button>

@@ -37,12 +37,12 @@ export const useGrilleEvaluationStore = defineStore('grille', () => {
 
             // Associer les évaluations à chaque grille
             if (grille.evaluations && Array.isArray(grille.evaluations)) {
-                grille.evaluationDetails = grille.evaluations.map(evaluationId =>
+                grille.evaluationsDetails = grille.evaluations.map(evaluationId =>
                     evaluationsData.find(evaluation => evaluation.id === evaluationId)
                 ).filter(evaluation => evaluation !== null)
             } else {
                 grille.evaluations = []
-                grille.evaluationDetails = []
+                grille.evaluationsDetails = []
             }
         })
     }
@@ -76,7 +76,7 @@ export const useGrilleEvaluationStore = defineStore('grille', () => {
                     description: newGrille.description || '',
                     criteres: newGrille.criteres || [],
                     evaluations: newGrille.evaluations || [],
-                    evaluationDetails: newGrille.evaluationDetails || [],
+                    evaluationsDetails: newGrille.evaluationsDetails || [],
                     total_points: newGrille.total_points || 0,
                     date_creation: new Date().toISOString(),
                     date_modification: new Date().toISOString(),
